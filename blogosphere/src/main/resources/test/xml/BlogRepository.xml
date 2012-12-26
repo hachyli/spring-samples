@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sivalabs.blogosphere.repositories.BlogRepository">
+	
+	<resultMap type="Blog" id="SimpleBlogResult">
+		<id property="blogId" column="blog_id"/>
+		<result property="blogName" column="blog_name"/>
+		<result property="createdOn" column="created_on"/>
+		<association property="owner" resultMap="UserResult"></association>
+	</resultMap>
+	
+	<resultMap type="Blog" id="BlogResult">
+		<id property="blogId" column="blog_id"/>
+		<result property="blogName" column="blog_name"/>
+		<result property="createdOn" column="created_on"/>
+		<association property="owner" resultMap="UserResult"/>
+		<collection property="posts" ofType="Post" resultMap="SimplePostResult"/>
+	</resultMap>
+	
+	<resultMap type="Post" id="SimplePostResult">
+		<id property="postId" column="post_id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="createdOn" column="created_On"/>
+		<association property="blog" resultMap="SimpleBlogResult"/>
+	</resultMap>
+	
+	<resultMap type="Post" id="PostResult">
+		<id property="postId" column="post_id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="createdOn" column="created_on"/>
+		<association property="blog" resultMap="SimpleBlogResult"/>
+		<collection property="comments" ofType="Comment" resultMap="CommentResult"/>	
+	</resultMap>
+	
+	<resultMap type="User" id="UserResult">
+		<id property="userId" column="user_id"/>
+		<result property="emailId" column="email_id"/>
+		<result property="password" column="password"/>
+		<result property="firstName" column="first_name"/>
+		<result property="lastName" column="last_name"/>
+	</resultMap>
+	
+	<resultMap type="Comment" id="CommentResult">
+		<id property="commentId" column="comment_id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="createdOn" column="created_on"/>
+		<association property="createdBy" resultMap="UserResult"/>
+		<association property="post" resultMap="SimplePostResult" />
+	</resultMap>
+	
+	<select id="getAllBlogs" resultMap="SimpleBlogResult">
+		SELECT * FROM blogs b JOIN USERS u ON b.owner_id=u.user_id
+	</select>
+	
+	<select id="getBlogById" parameterType="int" resultMap="BlogResult">
+		SELECT * 
+		FROM blogs b 
+		     JOIN USERS u ON b.owner_id=u.user_id 
+		     JOIN posts p ON p.blog_id=b.blog_id	
+		WHERE b.blog_id = #{id}
+	</select>
+	
+	<insert id="createBlog" parameterType="Blog" useGeneratedKeys="true" keyProperty="blogId">
+		INSERT INTO blogs(blog_id,blog_name,owner_id,created_on)
+		VALUES (#{blogId},#{blogName},#{owner.userId},#{createdOn})
+	</insert>
+	
+	<select id="blogNameExists" parameterType="string" resultType="boolean">
+		SELECT (CASE WHEN COUNT(*) > 0 THEN 'true' ELSE 'false' END) flag FROM BLOGS WHERE blog_name=#{blogName}
+	</select>
+	
+	<insert id="createBlogPost" parameterType="Post" useGeneratedKeys="true" keyProperty="postId">
+		INSERT INTO posts(post_id,title,content,created_on,blog_id)
+		VALUES (#{postId},#{title},#{content},#{createdOn},#{blog.blogId})
+	</insert>
+	
+	
+	<insert id="createPostComment" parameterType="Comment" useGeneratedKeys="true" keyProperty="commentId">
+		INSERT INTO comments(comment_id,title,content,created_on,created_by,post_id)
+		VALUES (#{commentId},#{title},#{content},#{createdOn},#{createdBy.userId},#{post.postId})
+	</insert>
+	
+	<select id="getPostById" parameterType="int" resultMap="PostResult">
+		SELECT * 
+		FROM posts p
+			JOIN blogs b ON b.blog_id=p.blog_id
+			LEFT OUTER JOIN COMMENTS c ON c.post_id=p.post_id 
+			LEFT OUTER JOIN USERS u ON u.user_id=b.owner_id
+		WHERE p.post_id = #{postId}
+	</select>
+	
+</mapper>

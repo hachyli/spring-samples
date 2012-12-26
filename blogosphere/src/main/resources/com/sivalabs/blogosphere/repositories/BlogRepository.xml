@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sivalabs.blogosphere.repositories.BlogRepository">
+	
+	<resultMap type="Blog" id="SimpleBlogResult">
+		<id property="blogId" column="blog_id"/>
+		<result property="blogName" column="blog_name"/>
+		<result property="createdOn" column="created_on"/>
+		<association property="owner" resultMap="UserResult" columnPrefix="user_"></association>
+	</resultMap>
+	
+	<resultMap type="Blog" id="BlogResult">
+		<id property="blogId" column="blog_id"/>
+		<result property="blogName" column="blog_name"/>
+		<result property="createdOn" column="created_on"/>
+		<association property="owner" resultMap="UserResult" columnPrefix="user_"/>
+		<collection property="posts" ofType="Post" resultMap="SimplePostResult" columnPrefix="post_"/>
+	</resultMap>
+	
+	<resultMap type="Post" id="SimplePostResult">
+		<id property="postId" column="post_id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="createdOn" column="created_On"/>
+		<association property="blog" resultMap="SimpleBlogResult" columnPrefix="blog_"/>
+	</resultMap>
+	
+	<resultMap type="Post" id="PostResult">
+		<id property="postId" column="post_id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="createdOn" column="created_on"/>
+		<association property="blog" resultMap="BlogResult" columnPrefix="blog_"/>
+		<collection property="comments" ofType="Comment" resultMap="CommentResult" columnPrefix="comment_"/>	
+	</resultMap>
+	
+	<resultMap type="User" id="UserResult">
+		<id property="userId" column="user_id"/>
+		<result property="emailId" column="email_id"/>
+		<result property="password" column="password"/>
+		<result property="firstName" column="first_name"/>
+		<result property="lastName" column="last_name"/>
+	</resultMap>
+	
+	<resultMap type="Comment" id="CommentResult">
+		<id property="commentId" column="comment_id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="createdOn" column="created_on"/>
+		<association property="createdBy" resultMap="UserResult" columnPrefix="user_"/>
+		<association property="post" resultMap="SimplePostResult" columnPrefix="post_"/>
+	</resultMap>
+	
+	<select id="getAllBlogs" resultMap="SimpleBlogResult">
+		SELECT b.*,
+			u.user_id user_user_id,u.email_id user_email_id,u.password user_password,u.first_name user_first_name,
+					u.last_name user_last_name,u.disabled user_disabled
+		FROM blogs b JOIN USERS u ON b.owner_id=u.user_id
+	</select>
+	
+	<select id="getUserBlogs" parameterType="int" resultMap="SimpleBlogResult">
+		SELECT b.*,
+			u.user_id user_user_id,u.email_id user_email_id,u.password user_password,u.first_name user_first_name,
+					u.last_name user_last_name,u.disabled user_disabled
+		FROM blogs b JOIN USERS u ON b.owner_id=u.user_id
+		WHERE b.owner_id=#{userId}
+	</select>
+	
+	<select id="getBlogById" parameterType="int" resultMap="BlogResult">
+		SELECT b.*,
+			u.user_id user_user_id,u.email_id user_email_id,u.password user_password,u.first_name user_first_name,
+					u.last_name user_last_name,u.disabled user_disabled,
+			p.post_id post_post_id, p.title post_title,p.content post_content,p.created_on post_created_on
+		FROM blogs b 
+		     JOIN USERS u ON b.owner_id=u.user_id 
+		     LEFT JOIN posts p ON p.blog_id=b.blog_id	
+		WHERE b.blog_id = #{id}
+	</select>
+	
+	<insert id="createBlog" parameterType="Blog" useGeneratedKeys="true" keyProperty="blogId">
+		INSERT INTO blogs(blog_id,blog_name,owner_id,created_on)
+		VALUES (#{blogId},#{blogName},#{owner.userId},#{createdOn})
+	</insert>
+	
+	<select id="blogNameExists" parameterType="string" resultType="boolean">
+		SELECT (CASE WHEN COUNT(*) > 0 THEN 'true' ELSE 'false' END) flag FROM BLOGS WHERE blog_name=#{blogName}
+	</select>
+	
+	<insert id="createBlogPost" parameterType="Post" useGeneratedKeys="true" keyProperty="postId">
+		INSERT INTO posts(post_id,title,content,created_on,blog_id)
+		VALUES (#{postId},#{title},#{content},#{createdOn},#{blog.blogId})
+	</insert>
+		
+	<insert id="createPostComment" parameterType="Comment" useGeneratedKeys="true" keyProperty="commentId">
+		INSERT INTO comments(comment_id,title,content,created_on,created_by,post_id)
+		VALUES (#{commentId},#{title},#{content},#{createdOn},#{createdBy.userId},#{post.postId})
+	</insert>
+	
+	<select id="getPostById" parameterType="int" resultMap="PostResult">
+		SELECT  p.post_id,p.title,p.content,p.created_on,
+				c.comment_id comment_comment_id,c.title comment_title,c.content comment_content,c.created_on comment_created_on,c.created_by comment_created_by,
+				cu.user_id comment_user_user_id,cu.email_id comment_user_email_id,cu.password comment_user_password,cu.first_name comment_user_first_name,
+					cu.last_name comment_user_last_name,cu.disabled comment_user_disabled,				
+				b.blog_id blog_blog_id, b.blog_name blog_blog_name,b.created_on blog_created_on,
+				u.user_id blog_user_user_id,u.email_id blog_user_email_id,u.password blog_user_password,u.first_name blog_user_first_name,
+					u.last_name blog_user_last_name,u.disabled blog_user_disabled
+					
+		FROM posts p
+			LEFT JOIN blogs b ON b.blog_id=p.blog_id JOIN USERS u ON u.user_id=b.owner_id
+			LEFT JOIN COMMENTS c ON c.post_id=p.post_id JOIN USERS cu on c.created_by=cu.user_id
+			
+		WHERE p.post_id = #{postId}
+	</select>
+	
+</mapper>
