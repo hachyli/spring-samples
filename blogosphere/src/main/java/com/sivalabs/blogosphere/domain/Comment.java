@@ -15,8 +15,10 @@ public class Comment
 	private String title;
 	private String content;
 	private Date createdOn;
-	private User createdBy;
-	private Post post;
+	//private User createdBy;
+	//private Post post;
+	private Integer createdBy;
+	private Integer postId;
 	
 	public Integer getCommentId() {
 		return commentId;
@@ -42,7 +44,7 @@ public class Comment
 	public void setCreatedOn(Date createdOn) {
 		this.createdOn = createdOn;
 	}
-	public User getCreatedBy() {
+	/*public User getCreatedBy() {
 		return createdBy;
 	}
 	public void setCreatedBy(User createdBy) {
@@ -53,6 +55,22 @@ public class Comment
 	}
 	public void setPost(Post post) {
 		this.post = post;
+	}*/
+	public Integer getCreatedBy()
+	{
+		return createdBy;
+	}
+	public void setCreatedBy(Integer createdBy)
+	{
+		this.createdBy = createdBy;
+	}
+	public Integer getPostId()
+	{
+		return postId;
+	}
+	public void setPostId(Integer postId)
+	{
+		this.postId = postId;
 	}
 	
 	

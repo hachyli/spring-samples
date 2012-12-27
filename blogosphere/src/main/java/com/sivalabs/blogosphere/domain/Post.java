@@ -17,7 +17,8 @@ public class Post
 	private String title;
 	private String content;
 	private Date createdOn;
-	private Blog blog;
+	private Integer blogId;	
+	//private Blog blog;
 	private List<Comment> comments = null;
 	private List<Tag> tags = null;
 	
@@ -45,12 +46,12 @@ public class Post
 	public void setCreatedOn(Date createdOn) {
 		this.createdOn = createdOn;
 	}
-	public Blog getBlog() {
+	/*public Blog getBlog() {
 		return blog;
 	}
 	public void setBlog(Blog blog) {
 		this.blog = blog;
-	}
+	}*/
 	public List<Comment> getComments() {
 		if(comments==null){
 			comments = new ArrayList<Comment>();
@@ -69,7 +70,13 @@ public class Post
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
-	
-	
+	public Integer getBlogId()
+	{
+		return blogId;
+	}
+	public void setBlogId(Integer blogId)
+	{
+		this.blogId = blogId;
+	}
 	
 }

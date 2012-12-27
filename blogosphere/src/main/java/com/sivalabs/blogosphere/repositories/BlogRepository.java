@@ -21,4 +21,6 @@ public interface BlogRepository
 	Post getPostById(Integer postId);
 	void createPostComment(Comment comment);
 	List<Blog> getUserBlogs(Integer userId);
+	List<Post> getBlogPosts(Integer blogId);
+	List<Comment> getPostComments(Integer postId);
 }

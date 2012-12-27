@@ -1,9 +1,11 @@
 package com.sivalabs.blogosphere.service;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sivalabs.blogosphere.domain.Blog;
 import com.sivalabs.blogosphere.domain.Comment;
 import com.sivalabs.blogosphere.domain.Post;
-import com.sivalabs.blogosphere.domain.User;
 
 /**
  * @author Siva
@@ -42,32 +43,14 @@ public class BlogServiceTest
 		Blog blog = new Blog();
 		blog.setBlogName("sivalabs"+System.currentTimeMillis());
 		blog.setCreatedOn(new Date());
-		User owner = new User();
-		owner.setUserId(2);
-		blog.setOwner(owner );
+		
+		blog.setOwnerId(2 );
 		
 		Blog createdBlog = bps.createBlog(blog);
 		assertNotNull(createdBlog);
 		System.out.println(createdBlog.getBlogId());
 	}
-	
-	@Test
-	public void testGetAllBlogs()
-	{
-		List<Blog> allBlogs = bps.getAllBlogs();
-		for (Blog blog : allBlogs)
-		{
-			System.out.println(blog.getBlogName());
-			List<Post> posts = blog.getPosts();
-			
-			System.err.println("No of posts: "+posts.size());
-			for (Post post : posts)
-			{
-				System.err.println(post.getContent()+" posted by "+blog.getOwner().getEmailId());
-			}
-		}
-	}
-	
+		
 	@Test
 	public void testGetUserBlogs()
 	{
@@ -81,7 +64,7 @@ public class BlogServiceTest
 			System.err.println("No of posts: "+posts.size());
 			for (Post post : posts)
 			{
-				System.err.println(post.getContent()+" posted by "+blog.getOwner().getEmailId());
+				System.err.println(post.getContent()+" posted by "+blog.getOwnerId());
 			}
 		}
 		System.err.println("=============testGetUserBlogs END================");
@@ -90,25 +73,25 @@ public class BlogServiceTest
 	@Test
 	public void testGetBlogById()
 	{
+		System.err.println("=============testGetBlogById================");
 		Blog blog = bps.getBlogById(1);
 		assertNotNull(blog);
 		System.err.println(blog.getBlogName());
-		System.err.println(blog.getOwner().getEmailId());
+		System.err.println(blog.getOwnerId());
 		List<Post> posts = blog.getPosts();
 		System.err.println("No of posts: "+posts.size());
 		for (Post post : posts)
 		{
-			System.err.println(post.getContent()+" posted by "+blog.getOwner().getEmailId());
+			System.err.println(post.getContent()+" posted by "+blog.getOwnerId());
 		}
 	}
 	
 	@Test
 	public void testCreateBlogPost()
 	{
-		Blog blog=new Blog();
-		blog.setBlogId(1);
+		System.err.println("=============testCreateBlogPost================");
 		Post post = new Post();
-		post.setBlog(blog);
+		post.setBlogId(1);
 		post.setTitle("My Second Post");
 		post.setContent("This my Second post");
 		post.setCreatedOn(new Date());
@@ -122,16 +105,13 @@ public class BlogServiceTest
 	@Test
 	public void testCreatePostComment()
 	{
-		Post post = new Post();
-		post.setPostId(1);
+		System.err.println("=============testCreatePostComment================");
 		Comment comment = new Comment();
-		comment.setPost(post);
+		comment.setPostId(1);
 		comment.setTitle("RE: My Second Post");
 		comment.setContent("Keep going...");
 		comment.setCreatedOn(new Date());
-		User user = new User();
-		user.setUserId(1);
-		comment.setCreatedBy(user);
+		comment.setCreatedBy(1);
 		Comment createdPostComment = bps.createPostComment(comment);
 		System.err.println(createdPostComment.getCommentId());
 		
@@ -140,8 +120,9 @@ public class BlogServiceTest
 	@Test
 	public void testGetPostById()
 	{
+		System.err.println("=============testGetPostById================");
 		Post post = bps.getPostById(1);
-		System.err.println(post.getBlog().getOwner().getEmailId());
+		System.err.println(post.getBlogId());
 		System.err.println(post.getContent());
 		List<Comment> comments = post.getComments();
 		for (Comment comment : comments)

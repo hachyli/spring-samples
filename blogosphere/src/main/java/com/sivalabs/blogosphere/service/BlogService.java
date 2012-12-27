@@ -29,7 +29,6 @@ public class BlogService
 		return sqlSession.getMapper(BlogRepository.class);
 	}
 	
-	
 	public Blog createBlog(Blog blog)
 	{
 		BlogRepository bpm = getBlogPostingMapper();
@@ -45,7 +44,10 @@ public class BlogService
 	public Blog getBlogById(Integer blogId)
 	{
 		BlogRepository bpm = getBlogPostingMapper();
-		return bpm.getBlogById(blogId);
+		Blog blog = bpm.getBlogById(blogId);
+		List<Post> posts = bpm.getBlogPosts(blogId);
+		blog.setPosts(posts);
+		return blog;
 	}
 
 	
@@ -67,7 +69,10 @@ public class BlogService
 	public Post getPostById(Integer postId)
 	{
 		BlogRepository bpm = getBlogPostingMapper();
-		return bpm.getPostById(postId);		
+		Post post = bpm.getPostById(postId);
+		List<Comment> comments = bpm.getPostComments(postId);
+		post.setComments(comments);
+		return post;	
 	}
 
 	

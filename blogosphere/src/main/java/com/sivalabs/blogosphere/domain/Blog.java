@@ -16,7 +16,8 @@ public class Blog
 	private Integer blogId;
 	private String blogName;
 	private Date createdOn;
-	private User owner;
+	private Integer ownerId;
+	//private User owner;
 	private List<Post> posts = null;
 	
 	public Integer getBlogId() {
@@ -31,12 +32,12 @@ public class Blog
 	public void setBlogName(String blogName) {
 		this.blogName = blogName;
 	}
-	public User getOwner() {
+	/*public User getOwner() {
 		return owner;
 	}
 	public void setOwner(User owner) {
 		this.owner = owner;
-	}
+	}*/
 	public Date getCreatedOn()
 	{
 		return createdOn;
@@ -53,6 +54,14 @@ public class Blog
 	}
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
+	}
+	public Integer getOwnerId()
+	{
+		return ownerId;
+	}
+	public void setOwnerId(Integer ownerId)
+	{
+		this.ownerId = ownerId;
 	}
 	
 }
