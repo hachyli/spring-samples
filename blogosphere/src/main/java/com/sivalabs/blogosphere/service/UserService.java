@@ -24,47 +24,46 @@ public class UserService
 {
 	private static Logger logger = LoggerFactory.getLogger(UserService.class);
 	
-	@Autowired
-	private SqlSession sqlSession;
-	
+	@Autowired private SqlSession sqlSession;
+	@Autowired private UserRepository userRepository;
 	
 	public User createUser(User user)
 	{
-		UserRepository um = sqlSession.getMapper(UserRepository.class);
-		if(um.emailIdExists(user.getEmailId()))
+		if(userRepository.userNameExists(user.getUserName()))
+		{
+			logger.warn("UserName ["+user.getUserName()+"] already in use.");
+			throw new BlogosphereException("UserName ["+user.getUserName()+"] already in use.");
+		}
+		if(userRepository.emailIdExists(user.getEmailId()))
 		{
 			logger.warn("Email Id ["+user.getEmailId()+"] already in use.");
 			throw new BlogosphereException("Email Id ["+user.getEmailId()+"] already in use.");
 		}
-		sqlSession.getMapper(UserRepository.class).createUser(user);
+		userRepository.createUser(user);
 		return user;
 	}
 
-	
 	public User updateUser(User user)
 	{
-		sqlSession.getMapper(UserRepository.class).updateUser(user);
+		userRepository.updateUser(user);
 		return user;
 	}
 
-	
 	public void deleteUser(User user)
 	{
-		sqlSession.getMapper(UserRepository.class).deleteUser(user.getUserId());
+		userRepository.deleteUser(user.getUserId());
 	}
-
 	
 	public User getUserById(Integer userId)
 	{
-		return sqlSession.getMapper(UserRepository.class).getUserById(userId);
+		return userRepository.getUserById(userId);
 	}
 
-	
-	public User login(String emailId, String pwd)
+	public User login(String loginId, String pwd)
 	{
 		//return sqlSession.getMapper(UserRepository.class).login(emailId, pwd);
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("emailId", emailId);
+		map.put("loginId", loginId);
 		map.put("password", pwd);
 		return (User)sqlSession.selectOne("com.sivalabs.blogosphere.repositories.UserRepository.login", map );
 	}

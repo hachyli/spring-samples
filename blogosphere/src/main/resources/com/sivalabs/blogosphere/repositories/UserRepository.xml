@@ -6,10 +6,14 @@
 	
 	<resultMap type="User" id="UserResult">
 		<id property="userId" column="user_id"/>
-		<result property="emailId" column="email_id"/>
+		<result property="userName" column="username"/>
 		<result property="password" column="password"/>
+		<result property="emailId" column="email_id"/>
 		<result property="firstName" column="first_name"/>
 		<result property="lastName" column="last_name"/>
+		<collection property="blogs" ofType="Blog" 
+					resultMap="com.sivalabs.blogosphere.repositories.BlogRepository.BlogResult" 
+					columnPrefix="blog_"/>
 	</resultMap>
 	
 	<select id="getAllUsers" resultMap="UserResult">
@@ -21,13 +25,13 @@
 	</select>
 	
 	<select id="login" parameterType="hashmap" resultMap="UserResult">
-		select * from users where email_id = #{emailId} and password= #{password}
+		select * from users where (username= #{loginId} or email_id = #{loginId}) and password= #{password}
 	</select>
 	
 	<insert id="createUser" parameterType="User" useGeneratedKeys="true" keyProperty="userId">
 		
-		INSERT INTO users (user_id,email_id,password,first_name,last_name,disabled)
-		VALUES (#{userId},#{emailId},#{password},#{firstName},#{lastName},#{disabled})
+		INSERT INTO users (user_id,email_id,username,password,first_name,last_name,disabled)
+		VALUES (#{userId},#{emailId},#{userName}, #{password},#{firstName},#{lastName},#{disabled})
 	</insert>
 	
 	<update id="updateUser" parameterType="User">
@@ -44,6 +48,10 @@
 	
 	<select id="emailIdExists" parameterType="string" resultType="boolean">
 		SELECT (CASE WHEN COUNT(*) > 0 THEN 'true' ELSE 'false' END) flag FROM USERS WHERE email_id=#{emailId}
+	</select>
+	
+	<select id="userNameExists" parameterType="string" resultType="boolean">
+		SELECT (CASE WHEN COUNT(*) > 0 THEN 'true' ELSE 'false' END) flag FROM USERS WHERE username=#{userName}
 	</select>
 	
 </mapper>

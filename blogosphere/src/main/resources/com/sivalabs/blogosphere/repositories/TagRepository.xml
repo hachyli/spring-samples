@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sivalabs.blogosphere.repositories.TagRepository">
+	
+	<resultMap type="Tag" id="TagResult">
+		<id property="tagId" column="tag_id"/>
+		<result property="tagName" column="tag_name"/>
+		<result property="description" column="description"/>
+	</resultMap>
+	
+	<select id="getAllTags" resultMap="TagResult">
+		SELECT * FROM tags
+	</select>
+	
+	<select id="getTagById" parameterType="int" resultMap="TagResult">
+		select * from tags where tag_id = #{id}
+	</select>
+	
+	<insert id="createTag" parameterType="Tag" useGeneratedKeys="true" keyProperty="tagId">
+		INSERT INTO tags (tag_id,tag_name,description)
+		VALUES (#{tagId},#{tagName},#{description})
+	</insert>
+	
+	<update id="updateTag" parameterType="Tag">
+		UPDATE tags
+		SET 
+		  tag_name = #{tagName},
+		  description = #{description}
+		WHERE tag_id = #{tagId}
+	</update>
+	
+	<delete id="deleteTag" parameterType="int">
+		delete from tags where tag_id = #{tagId}
+	</delete>
+	
+	<insert id="insertPostTag" parameterType="hashmap">
+		insert into post_tags(post_id,tag_id)
+		values(#{postId},#{tagId})
+	</insert>
+	
+	<delete id="deletePostTag" parameterType="hashmap">
+		delete from post_tags
+		where post_id=#{postId} and tag_id=#{tagId}
+	</delete>
+	
+	<select id="getTagsByPostId" parameterType="int" resultMap="TagResult">
+		SELECT t.tag_id,t.tag_name,t.description FROM tags t left join post_tags pt on t.tag_id=pt.tag_id
+		where pt.post_id = #{postId}
+	</select>
+	
+	<delete id="deletePostTags" parameterType="int">
+		delete from post_tags
+		where post_id=#{postId}
+	</delete>
+	
+</mapper>

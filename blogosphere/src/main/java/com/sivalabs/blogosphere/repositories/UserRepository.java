@@ -14,4 +14,5 @@ public interface UserRepository
 	User getUserById(Integer userId);
 	User login(String emailId, String pwd);
 	boolean emailIdExists(String emailId);
+	boolean userNameExists(String userName);
 }

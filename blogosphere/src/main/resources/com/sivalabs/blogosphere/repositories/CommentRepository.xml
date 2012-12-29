@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sivalabs.blogosphere.repositories.CommentRepository">
+	
+	<resultMap type="Comment" id="CommentResult">
+		<id property="commentId" column="comment_id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="createdOn" column="created_on"/>
+		<result property="createdBy.userId" column="created_by"/>
+		<result property="createdBy.userName" column="created_by_username"/>
+		<result property="post.postId" column="post_id"/>
+	</resultMap>
+	
+	
+	<insert id="createComment" parameterType="Comment" useGeneratedKeys="true" keyProperty="commentId">
+		INSERT INTO comments(comment_id,title,content,created_on,created_by,post_id)
+		VALUES (#{commentId},#{title},#{content},#{createdOn},#{createdBy.userId},#{post.postId})
+	</insert>
+	
+	<select id="getCommentsByPostId" parameterType="int" resultMap="CommentResult">
+		SELECT  c.*, u.username created_by_username					
+		FROM comments c join users u on c.created_by=u.user_id					
+		WHERE post_id = #{postId}
+	</select>
+	
+	<select id="getCommentById" parameterType="int" resultMap="CommentResult">
+		SELECT  *					
+		FROM comments 					
+		WHERE comment_id = #{commentId}
+	</select>
+	
+	<update id="updateComment" parameterType="Comment">
+		UPDATE comments
+		SET 
+		  title = #{title},
+		  content = #{content}		  
+		WHERE comment_id = #{commentId}
+	</update>
+	
+	<delete id="deleteComment" parameterType="int">
+		delete from comments where comment_id=#{commentId}
+	</delete>
+	
+	<delete id="deleteCommentsByPostId" parameterType="int">
+		delete from comments where post_id=#{postId}
+	</delete>
+	
+</mapper>

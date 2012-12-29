@@ -4,41 +4,19 @@
   
 <mapper namespace="com.sivalabs.blogosphere.repositories.BlogRepository">
 	
-	<resultMap type="User" id="UserResult">
-		<id property="userId" column="user_id"/>
-		<result property="emailId" column="email_id"/>
-		<result property="password" column="password"/>
-		<result property="firstName" column="first_name"/>
-		<result property="lastName" column="last_name"/>
-		<collection property="blogs" ofType="Blog" resultMap="BlogResult" columnPrefix="blog_"/>
-	</resultMap>
 	
 	<resultMap type="Blog" id="BlogResult">
 		<id property="blogId" column="blog_id"/>
 		<result property="blogName" column="blog_name"/>
 		<result property="createdOn" column="created_on"/>
-		<result property="ownerId" column="owner_id"/>
-		<collection property="posts" ofType="Post" resultMap="PostResult" columnPrefix="post_"/>
+		<result property="owner.userId" column="owner_id"/>
+		<!-- <association property="owner" resultMap="com.sivalabs.blogosphere.repositories.UserRepository.UserResult"
+					columnPrefix="owner_"/> -->
+		<collection property="posts" ofType="Post" 
+					resultMap="com.sivalabs.blogosphere.repositories.PostRepository.PostResult" 
+					columnPrefix="post_"/>
 	</resultMap>
 		
-	<resultMap type="Post" id="PostResult">
-		<id property="postId" column="post_id"/>
-		<result property="title" column="title"/>
-		<result property="content" column="content"/>
-		<result property="createdOn" column="created_on"/>
-		<result property="blogId" column="blog_id"/>
-		<collection property="comments" ofType="Comment" resultMap="CommentResult" columnPrefix="comment_"/>	
-	</resultMap>
-	
-	<resultMap type="Comment" id="CommentResult">
-		<id property="commentId" column="comment_id"/>
-		<result property="title" column="title"/>
-		<result property="content" column="content"/>
-		<result property="createdOn" column="created_on"/>
-		<result property="createdBy" column="created_by"/>
-		<result property="postId" column="post_id"/>
-	</resultMap>
-	
 	<select id="getAllBlogs" resultMap="BlogResult">
 		SELECT *
 		FROM blogs b
@@ -58,38 +36,12 @@
 	
 	<insert id="createBlog" parameterType="Blog" useGeneratedKeys="true" keyProperty="blogId">
 		INSERT INTO blogs(blog_id,blog_name,owner_id,created_on)
-		VALUES (#{blogId},#{blogName},#{ownerId},#{createdOn})
+		VALUES (#{blogId},#{blogName},#{owner.userId},#{createdOn})
 	</insert>
 	
 	<select id="blogNameExists" parameterType="string" resultType="boolean">
 		SELECT (CASE WHEN COUNT(*) > 0 THEN 'true' ELSE 'false' END) flag FROM BLOGS WHERE blog_name=#{blogName}
 	</select>
 	
-	<insert id="createBlogPost" parameterType="Post" useGeneratedKeys="true" keyProperty="postId">
-		INSERT INTO posts(post_id,title,content,created_on,blog_id)
-		VALUES (#{postId},#{title},#{content},#{createdOn},#{blogId})
-	</insert>
-		
-	<insert id="createPostComment" parameterType="Comment" useGeneratedKeys="true" keyProperty="commentId">
-		INSERT INTO comments(comment_id,title,content,created_on,created_by,post_id)
-		VALUES (#{commentId},#{title},#{content},#{createdOn},#{createdBy},#{postId})
-	</insert>
 	
-	<select id="getPostById" parameterType="int" resultMap="PostResult">
-		SELECT  *					
-		FROM posts 					
-		WHERE post_id = #{postId}
-	</select>
-	
-	<select id="getBlogPosts" parameterType="int" resultMap="PostResult">
-		SELECT  *					
-		FROM posts 					
-		WHERE blog_id = #{blogId}
-	</select>
-	
-	<select id="getPostComments" parameterType="int" resultMap="CommentResult">
-		SELECT  *					
-		FROM comments 					
-		WHERE post_id = #{postId}
-	</select>
 </mapper>

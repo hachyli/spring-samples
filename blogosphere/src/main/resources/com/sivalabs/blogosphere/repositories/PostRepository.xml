@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sivalabs.blogosphere.repositories.PostRepository">
+		
+		
+	<resultMap type="Post" id="PostResult">
+		<id property="postId" column="post_id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="createdOn" column="created_on"/>
+		<result property="blog.blogId" column="blog_id"/>
+		<collection property="comments" ofType="Comment" 
+					resultMap="com.sivalabs.blogosphere.repositories.CommentRepository.CommentResult" 
+					columnPrefix="comment_"/>	
+	</resultMap>
+	
+	
+	<insert id="createPost" parameterType="Post" useGeneratedKeys="true" keyProperty="postId">
+		INSERT INTO posts(post_id,title,content,created_on,blog_id)
+		VALUES (#{postId},#{title},#{content},#{createdOn},#{blog.blogId})
+	</insert>
+			
+	<select id="getPostById" parameterType="int" resultMap="PostResult">
+		SELECT  *					
+		FROM posts 					
+		WHERE post_id = #{postId}
+	</select>
+	
+	<select id="getPostsByBlogId" parameterType="int" resultMap="PostResult">
+		SELECT  *					
+		FROM posts 					
+		WHERE blog_id = #{blogId}
+	</select>
+	
+	<update id="updatePost" parameterType="Post">
+		UPDATE posts
+		SET 
+		  title = #{title},
+		  content = #{content}
+		WHERE post_id = #{postId}
+	</update>
+	
+	<delete id="deletePost" parameterType="int">
+		delete from posts where post_id=#{postId}
+	</delete>
+	
+</mapper>

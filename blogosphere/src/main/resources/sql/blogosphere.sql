@@ -4,24 +4,29 @@
 --USE blogosphere;
 
 DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS post_tags;
+DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS blogs;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
   user_id int(11) NOT NULL AUTO_INCREMENT,
-  email_id varchar(50) NOT NULL,
+  username varchar(50) NOT NULL,
   password varchar(50) NOT NULL,
+  email_id varchar(50) NOT NULL,
   first_name varchar(50) NOT NULL,
   last_name varchar(50) DEFAULT NULL,
   disabled char(1) DEFAULT NULL,
-  PRIMARY KEY (user_id)
+  PRIMARY KEY (user_id),
+  UNIQUE KEY username_unique (username),
+  UNIQUE KEY email_id_unique (email_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 /*Data for the table user */
 
-insert  into users(user_id,email_id,password,first_name,last_name,disabled) values (1,'admin@gmail.com','admin','Administrator',NULL,'0');
-insert  into users(user_id,email_id,password,first_name,last_name,disabled) values (2,'sivaprasadreddy.k@gmail.com','siva','Siva','K','0');
+insert  into users(user_id,email_id,username,password,first_name,last_name,disabled) values (1,'admin@gmail.com','admin','admin','Administrator',NULL,'0');
+insert  into users(user_id,email_id,username,password,first_name,last_name,disabled) values (2,'sivaprasadreddy.k@gmail.com','siva','siva','Siva','K','0');
 
 CREATE TABLE blogs 
 (
@@ -35,6 +40,22 @@ CREATE TABLE blogs
   CONSTRAINT FK_blog_owner FOREIGN KEY (owner_id) REFERENCES users (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+insert into blogs(blog_id,blog_name,owner_id,created_on) values(1,'sivalabs',1,now());
+
+CREATE TABLE tags (
+  tag_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  tag_name VARCHAR(50) NOT NULL,
+  description VARCHAR(512),
+  PRIMARY KEY (tag_id),
+  UNIQUE INDEX tag_name_unique(tag_name)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO tags (tag_id,tag_name,description)	VALUES (1,'java','Java');
+INSERT INTO tags (tag_id,tag_name,description)	VALUES (2,'java-ee','JavaEE');
+INSERT INTO tags (tag_id,tag_name,description)	VALUES (3,'spring','Spring');
+INSERT INTO tags (tag_id,tag_name,description)	VALUES (4,'hibernate','Hibernate');
+INSERT INTO tags (tag_id,tag_name,description)	VALUES (5,'ajax','Ajax');
+INSERT INTO tags (tag_id,tag_name,description)	VALUES (6,'tomcat','Tomcat');
 
 
 CREATE TABLE posts (
@@ -51,6 +72,15 @@ CREATE TABLE posts (
 
 insert  into posts(post_id,title,content,created_on,blog_id) values (1,'My First Post','This my First post',now(),1);
 
+CREATE TABLE post_tags 
+(
+  post_id int(11) NOT NULL default '0',
+  tag_id int(11) NOT NULL default '0',
+  PRIMARY KEY  (post_id,tag_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+insert into post_tags(post_id,tag_id) values(1,1);
+insert into post_tags(post_id,tag_id) values(1,3);
 
 CREATE TABLE comments (
   comment_id int(11) NOT NULL AUTO_INCREMENT,

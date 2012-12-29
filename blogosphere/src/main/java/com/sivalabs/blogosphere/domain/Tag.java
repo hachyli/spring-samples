@@ -3,8 +3,6 @@
  */
 package com.sivalabs.blogosphere.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author skatam
@@ -14,8 +12,23 @@ public class Tag
 {
 	private Integer tagId;
 	private String tagName;
-	private List<Post> posts = new ArrayList<Post>();
+	private String description;
 	
+	public Tag() {
+	}
+	
+	public Tag(Integer tagId) {
+		this.tagId = tagId;
+	}
+	public Tag(Integer tagId, String tagName) {
+		this.tagId = tagId;
+		this.tagName = tagName;
+	}
+	public Tag(Integer tagId, String tagName, String description) {
+		this.tagId = tagId;
+		this.tagName = tagName;
+		this.description = description;
+	}
 	public Integer getTagId() {
 		return tagId;
 	}
@@ -28,12 +41,11 @@ public class Tag
 	public void setTagName(String tagName) {
 		this.tagName = tagName;
 	}
-	public List<Post> getPosts() {
-		return posts;
+	public String getDescription() {
+		return description;
 	}
-	public void setPosts(List<Post> posts) {
-		this.posts = posts;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	
 	
 }

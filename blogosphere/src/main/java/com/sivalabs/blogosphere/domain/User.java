@@ -4,6 +4,7 @@
 package com.sivalabs.blogosphere.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,11 +14,14 @@ import java.util.List;
 public class User 
 {
 	private Integer userId;
-	private String emailId;
+	private String userName;
 	private String password;
+	private String emailId;
 	private String firstName;
 	private String lastName;
 	private boolean disabled;
+	private Date createdOn;
+	private Date updatedOn;
 	private List<Blog> blogs = new ArrayList<Blog>();
 	
 	public Integer getUserId() {
@@ -25,6 +29,13 @@ public class User
 	}
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getEmailId() {
 		return emailId;
@@ -65,6 +76,17 @@ public class User
 	public void setBlogs(List<Blog> blogs) {
 		this.blogs = blogs;
 	}
-	
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
+	}
 	
 }

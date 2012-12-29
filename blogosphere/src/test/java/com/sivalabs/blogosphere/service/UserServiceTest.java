@@ -78,8 +78,9 @@ public class UserServiceTest
 		*/
 		
 		User guestUser = new User();
-		guestUser.setEmailId("guest@gmail.com");
+		guestUser.setUserName("guest");
 		guestUser.setPassword("guest");
+		guestUser.setEmailId("guest@gmail.com");
 		guestUser.setFirstName("Guest");
 		
 		User createdUser = ums.createUser(guestUser);
