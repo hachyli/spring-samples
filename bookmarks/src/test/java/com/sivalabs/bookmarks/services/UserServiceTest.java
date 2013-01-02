@@ -31,7 +31,7 @@ public class UserServiceTest
 			System.err.println(user);
 		}
 	}
-	@Test
+	//@Test
 	public void testCreateBookmark()
 	{
 		BookMark bookMark = new BookMark();
@@ -43,6 +43,19 @@ public class UserServiceTest
 		bookMark.getTags().add(new Tag(null, "community"));
 		
 		bookMarkService.create(bookMark);
+		
+	}
+	
+	@Test
+	public void testGetBookmarksByTag()
+	{
+		String tagName = "java";
+		List<BookMark> bookMarks = bookMarkService.getBookMarksByTag(tagName );
+		System.err.println(bookMarks.size());
+		
+		tagName = "java-ee";
+		bookMarks = bookMarkService.getBookMarksByTag(tagName);
+		System.err.println(bookMarks.size());
 		
 	}
 }

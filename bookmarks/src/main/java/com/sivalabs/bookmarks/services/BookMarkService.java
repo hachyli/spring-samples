@@ -81,4 +81,23 @@ public class BookMarkService
 		//TODO; remove Spring dependency
 		return results;
 	}
+	
+	public List<BookMark> getBookMarksByTag(String tagName)
+	{
+		List<BookMark> bookMarks = null;
+		if(tagName!= null && tagName.length()>0)
+		{
+			Tag tag = tagRepository.findByTagName(tagName);
+			if(tag != null)
+			{
+				bookMarks = new ArrayList<BookMark>(tag.getBookMarks());
+			}
+			else
+			{
+				bookMarks = new ArrayList<BookMark>();
+			}
+		}
+		return bookMarks;
+	}
+	
 }

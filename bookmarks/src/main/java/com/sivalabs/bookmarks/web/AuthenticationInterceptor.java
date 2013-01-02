@@ -16,7 +16,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 		String contextPath = request.getContextPath();
 		//System.out.println(contextPath);
 		String requestMapping = uri.substring(contextPath.length()+1);
-		if (!requestMapping.startsWith("login.htm") && !requestMapping.startsWith("logout.htm")) {
+		if (!requestMapping.startsWith("services/") && !requestMapping.startsWith("login.htm") && !requestMapping.startsWith("logout.htm")) {
 			User userData = (User) request.getSession().getAttribute("LOGIN_USER");
 			if (userData == null) {
 				response.sendRedirect("login.htm");
