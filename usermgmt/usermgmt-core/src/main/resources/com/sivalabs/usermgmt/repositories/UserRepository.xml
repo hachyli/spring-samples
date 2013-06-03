@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sivalabs.usermgmt.repositories.UserRepository">
+	
+	<resultMap type="User" id="UserResult">
+		<id property="userId" column="user_id"/>
+		<result property="userName" column="username"/>
+		<result property="password" column="password"/>
+		<result property="firstName" column="firstname"/>
+		<result property="lastName" column="lastname"/>
+		<result property="emailId" column="email_id"/>
+		<result property="disabled" column="disabled"/>
+		
+	</resultMap>
+	
+	<insert id="createUser" parameterType="User" useGeneratedKeys="true" keyProperty="userId">
+		
+		INSERT INTO users (user_id,username,password,firstname,lastname,email_id,disabled)
+		VALUES (#{userId},#{userName}, #{password},#{firstName},#{lastName},#{emailId},#{disabled})
+	</insert>
+	
+	<select id="findUserById" parameterType="int" resultMap="UserResult">
+		select * from users where user_id = #{id}
+	</select>
+	
+	<select id="findAllUsers" resultMap="UserResult">
+		SELECT * FROM users
+	</select>
+	
+	<update id="updateUser" parameterType="User">
+		UPDATE users
+		SET 
+		  firstname = #{firstName},
+		  lastname = #{lastName},
+		  email_id = #{emailId},
+		  disabled = #{disabled}
+		WHERE user_id = #{userId}
+	</update>
+	
+	<delete id="deleteUser" parameterType="int">
+		delete from users where user_id = #{userId}
+	</delete>
+	
+	<delete id="deleteAllUsers">
+		delete from users
+	</delete>
+	
+	<select id="login" parameterType="User" resultMap="UserResult">
+		select * from users where username= #{userName} and password= #{password}
+	</select>
+	
+	<select id="searchUsers" parameterType="String" resultMap="UserResult">
+		select * from users 
+		where username like #{searchName}
+				or firstname like #{searchName} 
+				or lastname like #{searchName} 
+				or email_id like #{searchName}
+	</select>
+	
+	<select id="isEmailIdExists" parameterType="string" resultType="boolean">
+		SELECT (CASE WHEN COUNT(*) > 0 THEN 'true' ELSE 'false' END) flag FROM USERS WHERE email_id=#{emailId}
+	</select>
+	
+	<select id="isUserNameExists" parameterType="string" resultType="boolean">
+		SELECT (CASE WHEN COUNT(*) > 0 THEN 'true' ELSE 'false' END) flag FROM USERS WHERE username=#{userName}
+	</select>
+	
+	<select id="getUserIdByEmailId" parameterType="string" resultType="int">
+		select user_id from users where email_id=#{emailId}
+	</select>
+	
+</mapper>

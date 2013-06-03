@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+        <artifactId>usermgmt</artifactId>
+        <groupId>com.sivalabs</groupId>
+        <version>0.0.1</version>
+    </parent>
+  <artifactId>usermgmt-rest</artifactId>
+  <packaging>war</packaging>
+  <name>usermgmt-rest</name>
+  
+  <url>http://sivalabs.blogspot.in</url>
+  <description>Web Application with JDK 1.6, Servlet 2.5 and SLF4J configuration.</description>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+    
+  </properties>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		
+	</build>
+	
+  <dependencies>
+  
+    <dependency>
+		<groupId>com.sivalabs</groupId>
+		<artifactId>usermgmt-core</artifactId>
+		<version>0.0.1</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-webmvc</artifactId>
+	</dependency>
+	
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+		<scope>provided</scope>
+	</dependency>
+
+	<dependency>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-mapper-asl</artifactId>
+	</dependency>
+	
+	<!-- <dependency>
+		<groupId>javax.xml.bind</groupId>
+		<artifactId>jaxb-api</artifactId>
+		<version>2.2.7</version>
+	</dependency> -->
+	
+  </dependencies>
+  
+</project>
