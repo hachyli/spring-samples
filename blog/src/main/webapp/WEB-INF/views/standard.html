@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:tiles="http://www.thymeleaf.org"
+      lang="en">
+
+<head>
+
+    <title>Blog Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css" th:href="@{/resources/bootstrap/css/bootstrap.min.css}" />
+	<link rel="stylesheet" href="../resources/bootstrap/css/bootstrap-responsive.min.css" th:href="@{/resources/bootstrap/css/bootstrap-responsive.min.css}" />
+	<script type="text/javascript" th:href="@{/resources/bootstrap/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:href="@{/resources/jquery/js/jquery-1.7.2.min.js}"></script>
+    
+</head>
+
+
+<body class="tundra">
+
+<div id="page" class="container">
+
+    <div id="header">
+        Header
+    </div>
+    <div id="content">
+        <div id="main" class="span-18 last" tiles:include="body">
+
+          <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->      
+          <!-- At runtime, the body of this <div> will be substituted by -->
+          <!-- Tiles in order to create the final HTML page that will be -->
+          <!-- sent to the browser.                                      -->
+          <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->      
+          
+          BODY PAGE GOES HERE!
+          
+        </div>
+    </div>
+    
+    <hr />
+    
+    <div id="footer">
+        <a href="http://www.springframework.org">
+            Footer
+        </a>
+    </div>
+    
+</div>
+</body>
+</html>

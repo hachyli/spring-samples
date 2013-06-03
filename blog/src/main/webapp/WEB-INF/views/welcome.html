@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:tiles="http://www.thymeleaf.org">
+
+
+<body tiles:fragment="content">
+	<table class="table">
+		<caption th:text="#{user.table.caption}">Site Users</caption>
+		<thead>
+			<tr>
+				<th scope="col" th:text="#{user.id.label}">Id</th>
+				<th scope="col" th:text="#{user.email.label}">Email</th>
+				<th scope="col" th:text="#{user.username.label}">UserName</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="u : ${users}">
+				<td th:text="${u.id}">Id</td>
+				<td th:text="${u.email}">Email</td>
+				<td th:text="${u.userName}">UserName</td>
+			</tr>
+		</tbody>
+	</table>
+	
+</body>
+</html>
