@@ -59,7 +59,7 @@ public class BookMarkService
 			Tag tag = tagRepository.findByTagName(tagName);
 			if(tag == null)
 			{
-				tagObj.setTagId(null);
+				tagObj.setId(null);
 				tags.add(tagObj);
 			}
 			else

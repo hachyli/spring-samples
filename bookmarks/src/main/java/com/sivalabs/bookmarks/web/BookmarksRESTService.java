@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sivalabs.bookmarks.entities.BookMark;
 import com.sivalabs.bookmarks.services.BookMarkService;
+import com.sivalabs.bookmarks.services.HibernateDetachUtility;
+import com.sivalabs.bookmarks.services.HibernateDetachUtility.SerializationType;
 
 /**
  * @author Siva
@@ -30,8 +32,18 @@ public class BookmarksRESTService
 		List<BookMark> bookMarks = bookMarkService.getBookMarksByTag(tagName);
 		for (BookMark  bm : bookMarks)
 		{
-			BookMark bookMark = new BookMark(bm.getBookmarkId(), bm.getTitle(), bm.getUrl(), bm.getDescription());
-			detachedBookMarks.add(bookMark);
+			//BookMark bookMark = new BookMark(bm.getId(), bm.getTitle(), bm.getUrl(), bm.getDescription());
+			//detachedBookMarks.add(bookMark);
+			try
+			{
+				HibernateDetachUtility.nullOutUninitializedFields(bm, SerializationType.SERIALIZATION);
+				detachedBookMarks.add(bm);
+				
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+			
 		}
 		return detachedBookMarks;
 	}

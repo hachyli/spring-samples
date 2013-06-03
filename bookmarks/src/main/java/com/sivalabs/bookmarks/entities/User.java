@@ -29,7 +29,7 @@ public class User implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Integer userId;
+    private Integer id;
     
     @NotNull
     @Column(name = "username", nullable=false)
@@ -48,31 +48,31 @@ public class User implements Serializable
     public User() {
     }
 
-    public User(Integer userId) {
-        this.userId = userId;
+    public User(Integer id) {
+        this.id = id;
     }
 
-    public User(Integer userId, String userName, String password, String email) {
-		this.userId = userId;
+    public User(Integer id, String userName, String password, String email) {
+		this.id = id;
 		this.userName = userName;
 		this.password = password;
 		this.email = email;
 	}
-    public User(Integer userId, String userName, String password, String email,
+    public User(Integer id, String userName, String password, String email,
 			Set<BookMark> bookMarks) {
-		this.userId = userId;
+		this.id = id;
 		this.userName = userName;
 		this.password = password;
 		this.email = email;
 		this.bookMarks = bookMarks;
 	}
     
-	public Integer getUserId() {
-        return userId;
+	public Integer getId() {
+        return id;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 	public String getUserName() {

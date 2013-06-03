@@ -35,7 +35,7 @@ public class BookMark implements Serializable
      @Id
      @GeneratedValue(strategy = GenerationType.IDENTITY)
      @Column(name = "bookmark_id")
-     private Integer bookmarkId;
+     private Integer id;
      @Column(nullable=false)
      private String title;
      @Column(nullable=false)
@@ -55,38 +55,38 @@ public class BookMark implements Serializable
      public BookMark() {
      }
      
-     public BookMark(Integer bookmarkId) {
+     public BookMark(Integer id) {
 		super();
-		this.bookmarkId = bookmarkId;
+		this.id = id;
 	}
-     public BookMark(Integer bookmarkId, String title, String url,
+     public BookMark(Integer id, String title, String url,
  			String description) {
  		super();
- 		this.bookmarkId = bookmarkId;
+ 		this.id = id;
  		this.title = title;
  		this.url = url;
  		this.description = description;
  	}
-     public BookMark(Integer bookmarkId, String title, String url) {
+     public BookMark(Integer id, String title, String url) {
   		super();
-  		this.bookmarkId = bookmarkId;
+  		this.id = id;
   		this.title = title;
   		this.url = url;
   	}
-     public BookMark(Integer bookmarkId, String title, String url,
+     public BookMark(Integer id, String title, String url,
  			String description, User user) {
  		super();
- 		this.bookmarkId = bookmarkId;
+ 		this.id = id;
  		this.title = title;
  		this.url = url;
  		this.description = description;
  		this.user = user;
  	}
-	public Integer getBookmarkId() {
-		return bookmarkId;
+	public Integer getId() {
+		return id;
 	}
-	public void setBookmarkId(Integer bookmarkId) {
-		this.bookmarkId = bookmarkId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public String getTitle() {
 		return title;
