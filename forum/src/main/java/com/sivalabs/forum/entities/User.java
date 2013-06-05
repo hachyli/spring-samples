@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,6 +47,9 @@ public class User implements Serializable
     @Column(nullable=false)
     private String password;
     private boolean disabled;
+    
+    @OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+    private Set<Role> roles = new HashSet<Role>();
     
     @OneToMany(mappedBy="createdBy")
     private Set<Topic> topics = new HashSet<Topic>();
@@ -140,6 +144,36 @@ public class User implements Serializable
 
 	public void setDisabled(boolean disabled) {
 		this.disabled = disabled;
+	}
+
+	public Set<Role> getRoles()
+	{
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles)
+	{
+		this.roles = roles;
+	}
+
+	public Set<Topic> getTopics()
+	{
+		return topics;
+	}
+
+	public void setTopics(Set<Topic> topics)
+	{
+		this.topics = topics;
+	}
+
+	public Set<Post> getPosts()
+	{
+		return posts;
+	}
+
+	public void setPosts(Set<Post> posts)
+	{
+		this.posts = posts;
 	}
 
 }
