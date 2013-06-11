@@ -10,18 +10,25 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
-  <listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+  
+  <!-- Java-based annotation-driven Spring container definition -->
+	<context-param>
+    	<param-name>contextClass</param-name>
+    	<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+	</context-param>
+	
 	<context-param>
 	    <param-name>contextConfigLocation</param-name>
 	    <param-value>
-	    	classpath:spring/applicationContext.xml
-	    	/WEB-INF/securityContext.xml
+	    	com.sivalabs.buzz.config.AppConfig
 	    </param-value>
-  </context-param>
+  	</context-param>
   
-  <filter>
+  	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+  
+  	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
@@ -54,9 +61,20 @@
 	</filter-mapping>
 	
 	
-  <servlet>
+  	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+                  <param-name>contextClass</param-name>
+                  <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+                  </param-value>
+          </init-param>
+          <init-param>
+                  <param-name>contextConfigLocation</param-name>
+                  <param-value>
+                  	com.sivalabs.buzz.web.config.WebMvcConfig
+                  </param-value>
+          </init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 

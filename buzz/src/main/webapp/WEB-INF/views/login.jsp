@@ -2,7 +2,7 @@
 <%@ include file="taglib.jsp"%>
 
 <c:set var="pageTitle" value="Please Login" scope="request" />
-<c:url value="/j_spring_security_check" var="loginUrl" />
+<c:url value="/login" var="loginUrl" />
 
 <form:form action="${loginUrl}" method="post" modelAttribute="user">
 
