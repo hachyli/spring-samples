@@ -26,27 +26,27 @@ public class BuzzService
 	@Autowired private PostRepository postRepository;
 	
 	public void createUser(User user) {
-		userRepository.createUser(user);
+		userRepository.save(user);
 	}
 	
 	public User findUserById(Integer userId) {
-		return userRepository.findUserById(userId);
+		return userRepository.findOne(userId);
 	}
 
 	public List<User> findAllUsers() {
-		return userRepository.findAllUsers();
+		return userRepository.findAll();
 	}
 	
 	public void createPost(Post post) {
-		postRepository.createPost(post);
+		postRepository.save(post);
 	}
 
 	public List<Post> findAllPosts() {
-		return postRepository.findAllPosts();
+		return postRepository.findAll();
 	}
 
 	public List<Post> findUserPosts(int userId) {
-		return postRepository.findUserPosts(userId);
+		return postRepository.findByCreatedById(userId);
 	}
 
 	

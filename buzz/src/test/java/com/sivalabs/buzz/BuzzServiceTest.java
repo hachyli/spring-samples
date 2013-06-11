@@ -22,7 +22,11 @@ public class BuzzServiceTest
 
 	@Test
 	public void createUser() {
-		User user = new User(1,"siva");
+		User user = new User(1);
+		user.setUserName("siva");
+		user.setPassword("siva");
+		user.setName("Siva Prasad");
+		user.setEmail("sivaprasadreddy.k@gmail.com");
 		buzzService.createUser(user);
 	}
 	

@@ -1,3 +1,3 @@
 <%
-	response.sendRedirect("welcome");
+	response.sendRedirect("posts");
 %>
