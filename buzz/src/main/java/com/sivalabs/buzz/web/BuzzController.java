@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sivalabs.buzz.entities.Post;
@@ -55,6 +56,15 @@ public class BuzzController
 		logger.info("Found {} posts", posts.size());
 		model.addAttribute("POSTS_KEY", posts);
 		return "home";
+	}
+	
+	@RequestMapping(value={"/posts/json"}, method=RequestMethod.GET)
+	@ResponseBody
+	public List<Post> showPostsJson(Model model) {
+		logger.debug("Listing Posts JSON...");
+		List<Post> posts = buzzService.findAllPosts();
+		logger.info("Found {} posts", posts.size());
+		return posts;
 	}
 	
 	@RequestMapping(value="/posts", method=RequestMethod.POST)
