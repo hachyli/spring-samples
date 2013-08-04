@@ -11,7 +11,7 @@
 			<thead>
 				<tr class="success">
 					<th>Buzz</th>
-					<th>Posted By</th>
+					<th width="100px;">Posted By</th>
 				</tr>
 			</thead>
 			<tbody>

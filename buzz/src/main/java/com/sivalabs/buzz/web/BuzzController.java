@@ -74,7 +74,7 @@ public class BuzzController
 		try {
 			buzzService.createPost(post);
 			logger.debug("Creating Post Success.");
-			twitterTemplate.timelineOperations().updateStatus("Spring Social is awesome!");
+			//twitterTemplate.timelineOperations().updateStatus("Spring Social is awesome!");
 			redirectAttributes.addFlashAttribute("MESSAGE", "Posted successfully");
 			return "redirect:posts";
 		} catch (Exception e) {
