@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+        <artifactId>spring-training</artifactId>
+        <groupId>com.sivalabs</groupId>
+        <version>1.0</version>
+    </parent>
+
+  <artifactId>spring-core-xml</artifactId>
+  <packaging>jar</packaging>
+
+  <name>spring-core-xml</name>
+  <url>http://sivalabs.blogspot.in</url>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.6</java.version>
+    <junit.version>4.9</junit.version>
+    <slf4j.version>1.6.4</slf4j.version>
+    <logback.version>1.0.1</logback.version>
+    <log4j.version>1.2.14</log4j.version>
+    
+    <spring.version>3.1.0.RELEASE</spring.version>
+    <spring.data.jpa.version>1.1.0.RELEASE</spring.data.jpa.version>
+      
+    <aspectj.version>1.6.8</aspectj.version>
+    <cglib.version>2.2</cglib.version>
+    <mysql.version>5.1.19</mysql.version>
+        
+    
+    <commons.dbcp.version>1.4</commons.dbcp.version>
+    <commons.pool.version>1.6</commons.pool.version>
+    <commons.lang.version>2.5</commons.lang.version>  
+    
+    <maven.compiler.plugin>2.3.2</maven.compiler.plugin>
+    <maven.failsafe.plugin>2.4.3-alpha-1</maven.failsafe.plugin>
+        
+  </properties>
+	
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		
+	</build>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		
+	</dependencies>
+	
+  
+  
+</project>
