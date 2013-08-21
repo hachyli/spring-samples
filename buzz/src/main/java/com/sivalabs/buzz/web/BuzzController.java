@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sivalabs.buzz.entities.Post;
@@ -57,6 +58,15 @@ public class BuzzController
 		return "home";
 	}
 	
+	@RequestMapping(value={"/posts/json"}, method=RequestMethod.GET)
+	@ResponseBody
+	public List<Post> showPostsJson(Model model) {
+		logger.debug("Listing Posts JSON...");
+		List<Post> posts = buzzService.findAllPosts();
+		logger.info("Found {} posts", posts.size());
+		return posts;
+	}
+	
 	@RequestMapping(value="/posts", method=RequestMethod.POST)
 	public String createPost(@ModelAttribute("newPost") Post post, RedirectAttributes redirectAttributes) 
 	{
@@ -64,7 +74,7 @@ public class BuzzController
 		try {
 			buzzService.createPost(post);
 			logger.debug("Creating Post Success.");
-			twitterTemplate.timelineOperations().updateStatus("Spring Social is awesome!");
+			//twitterTemplate.timelineOperations().updateStatus("Spring Social is awesome!");
 			redirectAttributes.addFlashAttribute("MESSAGE", "Posted successfully");
 			return "redirect:posts";
 		} catch (Exception e) {

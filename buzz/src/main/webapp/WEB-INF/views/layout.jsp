@@ -14,7 +14,8 @@
 	<link type="text/css" href='<spring:url value="/resources/bootstrap/css/bootstrap-responsive.min.css"/>' rel="stylesheet" />
 
 	<style type="text/css">
-      body {
+      body 
+      {
         padding-top: 60px;
         padding-bottom: 40px;
       }
@@ -31,39 +32,77 @@
  <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          
           <a class="brand" href="#">Buzz</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="posts">Home</a></li>
               <li><a href="#about">About</a></li>
-              <li><a href="logout">Logout</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">MyAccount <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li class="nav-header">Nav header</li>
-                  <li><a href="#">Separated link</a></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
-              </li>
+              
             </ul>
-            <form class="navbar-form pull-right">
-              <input class="span2" type="text" placeholder="Email">
-              <input class="span2" type="password" placeholder="Password">
-              <button type="submit" class="btn">Sign in</button>
-            </form>
+            
+            <ul class="nav pull-right">
+            	<li>
+            	<form class="navbar-search" action="">
+                <input type="text" name="query" class="search-query span2" placeholder="Search">
+            	</form>
+            	</li>
+            	
+               <li><a href="#myModal" data-toggle="modal">PostBuzz</a></li>
+               <li><a href="logout">Logout</a></li>
+               <li class="divider-vertical"></li>
+               <li class="dropdown">
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">MyAccount<b class="caret"></b></a>
+                 <ul class="dropdown-menu">
+                   <li><a href="#">View Profile</a></li>
+                   <li><a href="#">Settings</a></li>
+                   <li class="divider"></li>
+                   <li><a href="logout">Logout</a></li>
+                 </ul>
+               </li>
+             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
+	
+	<!-- Modal -->
+	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" 
+			aria-labelledby="myModalLabel" aria-hidden="true">
+		<form id="newPostForm" class="form-horizontal" method="post" action="posts">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Post Buzz</h3>
+	  </div>
+	  <div class="modal-body">
+		
+			<fieldset>
+				<legend>New Post Form</legend>
+			  <div class="control-group">
+			    <label class="control-label" for="inputText">Text</label>
+			    <div class="controls">
+			      <textarea rows="5" cols="100" name="text" id="text"></textarea>
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label class="control-label" for="inputPostedBy">Posted By</label>
+			    <div class="controls">
+			      <input type="text" id="inputPostedBy" name="createdBy.id" placeholder="Enter UserId" value="1">
+			    </div>
+			  </div>
+			  
+			  <div id="newPostStatus" >
+			  </div>
+			  </fieldset>
+			
+
+	  </div>
+	  <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+	    <button type="submit" class="btn btn-primary" id="newPostSubmitBtn">Post</button>
+	  </div>
+	  </form>
+	</div>
 
     <div class="container">
 

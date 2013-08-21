@@ -6,6 +6,7 @@ package com.sivalabs.buzz.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +43,8 @@ public class BuzzService
 	}
 
 	public List<Post> findAllPosts() {
-		return postRepository.findAll();
+		Sort sort = new Sort(Sort.Direction.DESC, "createdOn"); 
+		return postRepository.findAll(sort);
 	}
 
 	public List<Post> findUserPosts(int userId) {
