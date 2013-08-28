@@ -5,8 +5,8 @@
 package com.sivalabs.springcart.entities;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,42 +27,52 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Siva
  */
 @Entity
-@Table(name = "inventory")
+@Table(name = "orders")
 @XmlRootElement
-public class Inventory implements Serializable {
+public class Order implements Serializable 
+{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "inv_id")
+    @Column(name = "order_id")
     private Integer id;
-    @Column(name = "min_threshold_level")
-    private BigInteger minThresholdLevel;
-    @NotNull
-    @Column(name = "quantity")
-    private long quantity;
     
+    @JoinColumn(name = "cust_id", referencedColumnName = "cust_id")
+    @ManyToOne(optional = false)
+    private Customer customer;
+    @JoinColumn(name = "recipient_id", referencedColumnName = "cust_id")
+    @ManyToOne(optional = false)
+    private Customer recipient;
+    
+    @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
+    @ManyToOne(optional = false)
+    private Payment payment;
+    
+    @Column(name = "status")
+    private Integer status;
+    @OneToMany
+    @JoinColumn(name="order_id", nullable=false)
+    private Set<OrderItem> orderItems;
+    
+    @NotNull
     @Column(name = "created_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
-    
     @Column(name = "updated_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedOn;
     
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
-    @ManyToOne
-    private Product product;
-
-    public Inventory() {
+    
+    public Order() {
     }
 
-    public Inventory(Integer id) {
+    public Order(Integer id) {
         this.id = id;
     }
 
-    public Inventory(Integer id, long quantity) {
+    public Order(Integer id, Date createdOn) {
         this.id = id;
-        this.quantity = quantity;
+        this.createdOn = createdOn;
     }
 
     public Integer getId() {
@@ -88,31 +99,53 @@ public class Inventory implements Serializable {
         this.updatedOn = updatedOn;
     }
 
-    public BigInteger getMinThresholdLevel() {
-        return minThresholdLevel;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setMinThresholdLevel(BigInteger minThresholdLevel) {
-        this.minThresholdLevel = minThresholdLevel;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-    public long getQuantity() {
-        return quantity;
+    public Set<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setQuantity(long quantity) {
-        this.quantity = quantity;
+    public void setOrderItems(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
-    public Product getProduct() {
-        return product;
-    }
+    public Customer getCustomer()
+	{
+		return customer;
+	}
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+	public void setCustomer(Customer customer)
+	{
+		this.customer = customer;
+	}
 
-    @Override
+	public Customer getRecipient()
+	{
+		return recipient;
+	}
+
+	public void setRecipient(Customer recipient)
+	{
+		this.recipient = recipient;
+	}
+
+	public Payment getPayment()
+	{
+		return payment;
+	}
+
+	public void setPayment(Payment payment)
+	{
+		this.payment = payment;
+	}
+
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
@@ -121,14 +154,16 @@ public class Inventory implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Inventory)) {
+        if (!(object instanceof Order)) {
             return false;
         }
-        Inventory other = (Inventory) object;
+        Order other = (Order) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
+
+  
     
 }

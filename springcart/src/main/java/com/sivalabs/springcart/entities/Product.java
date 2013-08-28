@@ -7,8 +7,7 @@ package com.sivalabs.springcart.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Set;
-import javax.persistence.Basic;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,9 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,27 +29,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "products")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
-    @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
-    @NamedQuery(name = "Product.findByCreatedOn", query = "SELECT p FROM Product p WHERE p.createdOn = :createdOn"),
-    @NamedQuery(name = "Product.findByUpdatedOn", query = "SELECT p FROM Product p WHERE p.updatedOn = :updatedOn"),
-    @NamedQuery(name = "Product.findByDescription", query = "SELECT p FROM Product p WHERE p.description = :description"),
-    @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
-    @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price")})
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "product_id")
     private Integer id;
-    @Column(name = "created_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
-    @Column(name = "updated_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedOn;
     @Size(max = 255)
     @Column(name = "description")
     private String description;
@@ -63,13 +44,19 @@ public class Product implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "price")
     private BigDecimal price;
-    @OneToMany(mappedBy = "productId")
-    private Set<Inventory> inventorySet;
-    @OneToMany(mappedBy = "productId")
-    private Set<OrderItem> orderItemSet;
-    @JoinColumn(name = "cat_id", referencedColumnName = "id")
+    @Column(name = "image_url")
+    private String imageUrl;
+    
+    @Column(name = "created_on")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdOn;
+    @Column(name = "updated_on")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedOn;
+    
+    @JoinColumn(name = "cat_id", referencedColumnName = "cat_id")
     @ManyToOne
-    private Category catId;
+    private Category category;
 
     public Product() {
     }
@@ -125,34 +112,29 @@ public class Product implements Serializable {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+    
+    public String getImageUrl()
+	{
+		return imageUrl;
+	}
 
-    @XmlTransient
-    public Set<Inventory> getInventorySet() {
-        return inventorySet;
-    }
+	public void setImageUrl(String imageUrl)
+	{
+		this.imageUrl = imageUrl;
+	}
+	@XmlTransient
+	@com.fasterxml.jackson.annotation.JsonIgnore
+    public Category getCategory()
+	{
+		return category;
+	}
 
-    public void setInventorySet(Set<Inventory> inventorySet) {
-        this.inventorySet = inventorySet;
-    }
-
-    @XmlTransient
-    public Set<OrderItem> getOrderItemSet() {
-        return orderItemSet;
-    }
-
-    public void setOrderItemSet(Set<OrderItem> orderItemSet) {
-        this.orderItemSet = orderItemSet;
-    }
-
-    public Category getCatId() {
-        return catId;
-    }
-
-    public void setCatId(Category catId) {
-        this.catId = catId;
-    }
-
-    @Override
+	public void setCategory(Category category)
+	{
+		this.category = category;
+	}
+/*
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
@@ -161,7 +143,6 @@ public class Product implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Product)) {
             return false;
         }
@@ -172,9 +153,18 @@ public class Product implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "com.sivalabs.bookstore.entities.Product[ id=" + id + " ]";
-    }
-    
+	public Product getCopy() {
+		Product product = new Product();
+		product.setId(id);
+		product.setName(name);
+		product.setPrice(price);
+		product.setDescription(description);
+		product.setImageUrl(imageUrl);
+		product.setCreatedOn(createdOn);
+		product.setUpdatedOn(updatedOn);
+		//product.setCategory(category);
+		
+		return product;
+	}
+    */
 }

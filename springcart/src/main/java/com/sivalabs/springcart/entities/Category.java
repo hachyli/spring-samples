@@ -5,16 +5,17 @@
 package com.sivalabs.springcart.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import javax.persistence.Basic;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -30,36 +31,48 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "categories")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c"),
-    @NamedQuery(name = "Category.findById", query = "SELECT c FROM Category c WHERE c.id = :id"),
-    @NamedQuery(name = "Category.findByCreatedOn", query = "SELECT c FROM Category c WHERE c.createdOn = :createdOn"),
-    @NamedQuery(name = "Category.findByUpdatedOn", query = "SELECT c FROM Category c WHERE c.updatedOn = :updatedOn"),
-    @NamedQuery(name = "Category.findByDescription", query = "SELECT c FROM Category c WHERE c.description = :description"),
-    @NamedQuery(name = "Category.findByName", query = "SELECT c FROM Category c WHERE c.name = :name")})
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "cat_id")
     private Integer id;
+    @Size(max = 255)
+    @Column(name = "name")
+    private String name;
+    @Size(max = 255)
+    @Column(name = "description")
+    private String description;    
     @Column(name = "created_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
     @Column(name = "updated_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedOn;
-    @Size(max = 255)
-    @Column(name = "description")
-    private String description;
-    @Size(max = 255)
-    @Column(name = "name")
-    private String name;
-    @OneToMany(mappedBy = "catId")
-    private Set<Product> productSet;
-
-    public Category() {
+    
+    @OneToMany(mappedBy = "category")
+    private Set<Product> products;
+    
+    /*public Category getCopy()
+    {
+    	Category category = new Category();
+    	category.setId(id);
+    	category.setName(name);
+    	category.setDescription(description);
+    	category.setCreatedOn(createdOn);
+    	category.setUpdatedOn(updatedOn);
+    	if(products != null)
+    	{
+    		for (Product product : products) 
+    		{
+    			category.addProduct(product.getCopy());
+			}
+    	}
+    	
+    	return category;
+    }
+    */
+	public Category() {
     }
 
     public Category(Integer id) {
@@ -106,38 +119,22 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    @XmlTransient
-    public Set<Product> getProductSet() {
-        return productSet;
+    //@XmlTransient
+    public Set<Product> getProducts() {
+    	if(products == null){
+    		products = new HashSet<Product>();
+    	}
+        return products;
     }
+    /*public List<Product> getProductsList() {
+        return new ArrayList<Product>(products);
+    }*/
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
+    public void addProduct(Product product) {
+    	getProducts().add(product);
+	}
 
-    public void setProductSet(Set<Product> productSet) {
-        this.productSet = productSet;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Category)) {
-            return false;
-        }
-        Category other = (Category) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.sivalabs.bookstore.entities.Category[ id=" + id + " ]";
-    }
     
 }

@@ -22,43 +22,17 @@ CREATE DATABASE IF NOT EXISTS bookstore;
 USE bookstore;
 
 --
--- Definition of table `addresses`
---
-
-DROP TABLE IF EXISTS `addresses`;
-CREATE TABLE `addresses` (
-  `id` int(11) NOT NULL auto_increment,
-  `created_on` datetime default NULL,
-  `updated_on` datetime default NULL,
-  `addrLine1` varchar(255) default NULL,
-  `addrLine2` varchar(255) default NULL,
-  `city` varchar(255) default NULL,
-  `country` varchar(255) default NULL,
-  `state` varchar(255) default NULL,
-  `zipCode` varchar(255) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `addresses`
---
-
-/*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
-/*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
-
-
---
 -- Definition of table `categories`
 --
 
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
-  `id` int(11) NOT NULL auto_increment,
+  `cat_id` int(11) NOT NULL auto_increment,
   `created_on` datetime default NULL,
-  `updated_on` datetime default NULL,
   `description` varchar(255) default NULL,
   `name` varchar(255) default NULL,
-  PRIMARY KEY  (`id`)
+  `updated_on` datetime default NULL,
+  PRIMARY KEY  (`cat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -66,9 +40,10 @@ CREATE TABLE `categories` (
 --
 
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` (`id`,`created_on`,`updated_on`,`description`,`name`) VALUES 
- (1,'2013-03-10 00:00:00',NULL,'Java Books','Java Books'),
- (2,'2013-03-10 00:00:00',NULL,'DotNet Books','Dot Net Books');
+INSERT INTO `categories` (`cat_id`,`created_on`,`description`,`name`,`updated_on`) VALUES 
+ (1,'2013-08-27 00:00:00','Java Programming Books','Java Books',NULL),
+ (2,'2013-08-27 00:00:00','MS.NET Programming Books','.NET Books',NULL),
+ (3,'2013-08-27 00:00:00','General Books','General Books',NULL);
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 
 
@@ -78,17 +53,20 @@ INSERT INTO `categories` (`id`,`created_on`,`updated_on`,`description`,`name`) V
 
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
-  `id` int(11) NOT NULL auto_increment,
+  `cust_id` int(11) NOT NULL auto_increment,
+  `addr_line1` varchar(255) default NULL,
+  `addr_line2` varchar(255) default NULL,
+  `city` varchar(255) default NULL,
+  `country` varchar(255) default NULL,
+  `state` varchar(255) default NULL,
+  `zip_code` varchar(255) default NULL,
   `created_on` datetime default NULL,
-  `updated_on` datetime default NULL,
   `email` varchar(255) default NULL,
   `firstName` varchar(255) default NULL,
   `lastName` varchar(255) default NULL,
   `phone` varchar(255) default NULL,
-  `addr_id` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `FK6268C35CBE94943` (`addr_id`),
-  CONSTRAINT `FK6268C35CBE94943` FOREIGN KEY (`addr_id`) REFERENCES `addresses` (`id`)
+  `updated_on` datetime default NULL,
+  PRIMARY KEY  (`cust_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -105,15 +83,15 @@ CREATE TABLE `customers` (
 
 DROP TABLE IF EXISTS `inventory`;
 CREATE TABLE `inventory` (
-  `id` int(11) NOT NULL auto_increment,
+  `inv_id` int(11) NOT NULL auto_increment,
   `created_on` datetime default NULL,
-  `updated_on` datetime default NULL,
-  `min_threshold_level` bigint(20) default NULL,
+  `min_threshold_level` decimal(19,2) default NULL,
   `quantity` bigint(20) NOT NULL,
+  `updated_on` datetime default NULL,
   `product_id` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `FK2DA8293CAAC4C080` (`product_id`),
-  CONSTRAINT `FK2DA8293CAAC4C080` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+  PRIMARY KEY  (`inv_id`),
+  KEY `FK8790195CA6AA8A7D` (`product_id`),
+  CONSTRAINT `FK8790195CA6AA8A7D` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -121,11 +99,22 @@ CREATE TABLE `inventory` (
 --
 
 /*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
-INSERT INTO `inventory` (`id`,`created_on`,`updated_on`,`min_threshold_level`,`quantity`,`product_id`) VALUES 
- (1,'2013-03-10 00:00:00',NULL,50,340,1),
- (2,'2013-03-10 00:00:00',NULL,25,50,2),
- (3,'2013-03-10 00:00:00',NULL,100,400,3),
- (4,'2013-03-10 00:00:00',NULL,150,500,4);
+INSERT INTO `inventory` (`inv_id`,`created_on`,`min_threshold_level`,`quantity`,`updated_on`,`product_id`) VALUES 
+ (1,'2013-08-27 19:54:56','100.00',50,NULL,1),
+ (2,'2013-08-27 19:54:56','100.00',50,NULL,2),
+ (3,'2013-08-27 19:54:56','100.00',50,NULL,3),
+ (4,'2013-08-27 19:54:56','100.00',50,NULL,4),
+ (5,'2013-08-27 19:54:56','100.00',50,NULL,5),
+ (6,'2013-08-27 19:54:56','100.00',50,NULL,6),
+ (7,'2013-08-27 19:54:56','100.00',50,NULL,7),
+ (8,'2013-08-27 19:54:56','100.00',50,NULL,8),
+ (9,'2013-08-27 19:54:56','100.00',50,NULL,9),
+ (10,'2013-08-27 19:54:56','100.00',50,NULL,10),
+ (11,'2013-08-27 19:54:56','100.00',50,NULL,11),
+ (12,'2013-08-27 19:54:56','100.00',50,NULL,12),
+ (13,'2013-08-27 19:54:56','100.00',50,NULL,13),
+ (14,'2013-08-27 19:54:56','100.00',50,NULL,14),
+ (15,'2013-08-27 19:54:56','100.00',50,NULL,15);
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 
 
@@ -135,17 +124,17 @@ INSERT INTO `inventory` (`id`,`created_on`,`updated_on`,`min_threshold_level`,`q
 
 DROP TABLE IF EXISTS `order_items`;
 CREATE TABLE `order_items` (
-  `id` int(11) NOT NULL auto_increment,
+  `order_item_id` int(11) NOT NULL auto_increment,
   `created_on` datetime default NULL,
-  `updated_on` datetime default NULL,
   `quantity` int(11) NOT NULL,
+  `updated_on` datetime default NULL,
   `product_id` int(11) default NULL,
-  `order_id` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `FK2BFF474F341C1A0` (`order_id`),
-  KEY `FK2BFF474FAAC4C080` (`product_id`),
-  CONSTRAINT `FK2BFF474F341C1A0` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
-  CONSTRAINT `FK2BFF474FAAC4C080` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+  `order_id` int(11) NOT NULL,
+  PRIMARY KEY  (`order_item_id`),
+  KEY `FK75109F8FD1BE6DD` (`order_id`),
+  KEY `FK75109F8FA6AA8A7D` (`product_id`),
+  CONSTRAINT `FK75109F8FA6AA8A7D` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`),
+  CONSTRAINT `FK75109F8FD1BE6DD` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -162,20 +151,20 @@ CREATE TABLE `order_items` (
 
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
-  `id` int(11) NOT NULL auto_increment,
+  `order_id` int(11) NOT NULL auto_increment,
   `created_on` datetime NOT NULL,
-  `updated_on` datetime default NULL,
   `status` int(11) default NULL,
+  `updated_on` datetime default NULL,
   `cust_id` int(11) NOT NULL,
   `payment_id` int(11) NOT NULL,
   `recipient_id` int(11) NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `FK8B7256E585F91520` (`payment_id`),
-  KEY `FK8B7256E5A9E721FF` (`cust_id`),
-  KEY `FK_orders_3` (`recipient_id`),
-  CONSTRAINT `FK8B7256E585F91520` FOREIGN KEY (`payment_id`) REFERENCES `payments` (`id`),
-  CONSTRAINT `FK8B7256E5A9E721FF` FOREIGN KEY (`cust_id`) REFERENCES `customers` (`id`),
-  CONSTRAINT `FK_orders_3` FOREIGN KEY (`recipient_id`) REFERENCES `customers` (`id`)
+  PRIMARY KEY  (`order_id`),
+  KEY `FKC3DF62E581DEDF1D` (`payment_id`),
+  KEY `FKC3DF62E532DE0E1C` (`recipient_id`),
+  KEY `FKC3DF62E52ABA97A2` (`cust_id`),
+  CONSTRAINT `FKC3DF62E52ABA97A2` FOREIGN KEY (`cust_id`) REFERENCES `customers` (`cust_id`),
+  CONSTRAINT `FKC3DF62E532DE0E1C` FOREIGN KEY (`recipient_id`) REFERENCES `customers` (`cust_id`),
+  CONSTRAINT `FKC3DF62E581DEDF1D` FOREIGN KEY (`payment_id`) REFERENCES `payments` (`payment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -192,13 +181,13 @@ CREATE TABLE `orders` (
 
 DROP TABLE IF EXISTS `payments`;
 CREATE TABLE `payments` (
-  `id` int(11) NOT NULL auto_increment,
+  `payment_id` int(11) NOT NULL auto_increment,
   `created_on` datetime default NULL,
-  `updated_on` datetime default NULL,
-  `creditCardNumber` varchar(255) default NULL,
+  `cc_number` varchar(255) default NULL,
   `cvv` varchar(255) default NULL,
-  `expiryDate` datetime default NULL,
-  PRIMARY KEY  (`id`)
+  `expiry_date` datetime default NULL,
+  `updated_on` datetime default NULL,
+  PRIMARY KEY  (`payment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -215,16 +204,17 @@ CREATE TABLE `payments` (
 
 DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
-  `id` int(11) NOT NULL auto_increment,
+  `product_id` int(11) NOT NULL auto_increment,
   `created_on` datetime default NULL,
-  `updated_on` datetime default NULL,
   `description` varchar(255) default NULL,
+  `image_url` varchar(255) default NULL,
   `name` varchar(255) default NULL,
   `price` decimal(19,2) default NULL,
+  `updated_on` datetime default NULL,
   `cat_id` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `FKF2D1C164F40A92BC` (`cat_id`),
-  CONSTRAINT `FKF2D1C164F40A92BC` FOREIGN KEY (`cat_id`) REFERENCES `categories` (`id`)
+  PRIMARY KEY  (`product_id`),
+  KEY `FKC42BD16474DE085F` (`cat_id`),
+  CONSTRAINT `FKC42BD16474DE085F` FOREIGN KEY (`cat_id`) REFERENCES `categories` (`cat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -232,11 +222,22 @@ CREATE TABLE `products` (
 --
 
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` (`id`,`created_on`,`updated_on`,`description`,`name`,`price`,`cat_id`) VALUES 
- (1,'2013-03-10 00:00:00',NULL,'Pro Spring 3','Pro Spring 3','500.00',1),
- (2,'2013-03-10 00:00:00',NULL,'Clean Code','Clean Code','750.00',1),
- (3,'2013-03-10 00:00:00',NULL,'First Look at C# 4.5','First Look at C# 4.5','560.00',2),
- (4,'2013-03-12 00:00:00',NULL,'Hibernate In Action','Hibernate In Action','360.00',1);
+INSERT INTO `products` (`product_id`,`created_on`,`description`,`image_url`,`name`,`price`,`updated_on`,`cat_id`) VALUES 
+ (1,'2013-08-28 00:00:00','Java Persistence with MyBatis 3','MyBatis3.jpg','Java Persistence with MyBatis 3','500.00',NULL,1),
+ (2,'2013-08-28 00:00:00','PrimeFaces Beginner\'s Guide: RAW','PFBG_Raw.jpg','PrimeFaces Beginner\'s Guide','680.00',NULL,1),
+ (3,'2013-08-28 00:00:00','CleanCode','CleanCode.jpg','CleanCode','4000.00',NULL,1),
+ (4,'2013-08-28 00:00:00','FirstLookatC#4.5.jpg','FirstLookatCSharp4.5.jpg','FirstLookatC#4.5.','650.00',NULL,2),
+ (5,'2013-08-28 00:00:00','HibernateInAction','HibernateInAction.jpg','HibernateInAction','480.00',NULL,1),
+ (6,'2013-08-28 00:00:00','JSF2_Cookbook','JSF2_Cookbook.jpg','JSF2_Cookbook','560.00',NULL,1),
+ (7,'2013-08-28 00:00:00','PF_Cookbook','PF_Cookbook.jpg','PF_Cookbook','750.00',NULL,1),
+ (8,'2013-08-28 00:00:00','PF_Starter','PF_Starter.jpg','PF_Starter.jpg','150.00',NULL,1),
+ (9,'2013-08-28 00:00:00','ProSpring3','ProSpring3.jpg','ProSpring3','450.00',NULL,1),
+ (10,'2013-08-28 00:00:00','Spring Recipies','SpringRecipies.jpg','Spring Recipies','2500.00',NULL,1),
+ (11,'2013-08-28 00:00:00','Visual Studio 2012 Cookbook','VS2012Cookbook.jpg','Visual Studio 2012 Cookbook','1200.00',NULL,2),
+ (12,'2013-08-28 00:00:00','The Monk Who Sold His Ferrari',NULL,'The Monk Who Sold His Ferrari','600.00',NULL,3),
+ (13,'2013-08-28 00:00:00','Who Will Cry When You Die?',NULL,'Who Will Cry When You Die?','600.00',NULL,3),
+ (14,'2013-08-28 00:00:00','The Alchemist',NULL,'The Alchemist','600.00',NULL,3),
+ (15,'2013-08-28 00:00:00','Life is What You Make it',NULL,'Life is What You Make it','600.00',NULL,3);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 
 

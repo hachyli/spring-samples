@@ -6,11 +6,9 @@ package com.sivalabs.springcart.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.twitter.api.impl.TwitterTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sivalabs.springcart.services.CustomerService;
 
@@ -25,9 +23,6 @@ public class CustomerController
 	
 	@Autowired
 	private CustomerService customerService;
-	
-	@Autowired
-	private TwitterTemplate twitterTemplate;
 	
 	@RequestMapping(value="/login/form")
 	public String login(Model model) {

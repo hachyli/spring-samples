@@ -6,23 +6,17 @@ package com.sivalabs.springcart.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,39 +25,30 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "payments")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Payment.findAll", query = "SELECT p FROM Payment p"),
-    @NamedQuery(name = "Payment.findById", query = "SELECT p FROM Payment p WHERE p.id = :id"),
-    @NamedQuery(name = "Payment.findByCreatedOn", query = "SELECT p FROM Payment p WHERE p.createdOn = :createdOn"),
-    @NamedQuery(name = "Payment.findByUpdatedOn", query = "SELECT p FROM Payment p WHERE p.updatedOn = :updatedOn"),
-    @NamedQuery(name = "Payment.findByCreditCardNumber", query = "SELECT p FROM Payment p WHERE p.creditCardNumber = :creditCardNumber"),
-    @NamedQuery(name = "Payment.findByCvv", query = "SELECT p FROM Payment p WHERE p.cvv = :cvv"),
-    @NamedQuery(name = "Payment.findByExpiryDate", query = "SELECT p FROM Payment p WHERE p.expiryDate = :expiryDate")})
-public class Payment implements Serializable {
+public class Payment implements Serializable 
+{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "payment_id")
     private Integer id;
+    @Size(max = 255)
+    @Column(name = "cc_number")
+    private String creditCardNumber;
+    @Size(max = 255)
+    @Column(name = "cvv")
+    private String cvv;
+    @Column(name = "expiry_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date expiryDate;
     @Column(name = "created_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
     @Column(name = "updated_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedOn;
-    @Size(max = 255)
-    @Column(name = "creditCardNumber")
-    private String creditCardNumber;
-    @Size(max = 255)
-    @Column(name = "cvv")
-    private String cvv;
-    @Column(name = "expiryDate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date expiryDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paymentId")
-    private Set<CustomerOrder> customerOrderSet;
-
+    
+    
     public Payment() {
     }
 
@@ -119,15 +104,6 @@ public class Payment implements Serializable {
         this.expiryDate = expiryDate;
     }
 
-    @XmlTransient
-    public Set<CustomerOrder> getCustomerOrderSet() {
-        return customerOrderSet;
-    }
-
-    public void setCustomerOrderSet(Set<CustomerOrder> customerOrderSet) {
-        this.customerOrderSet = customerOrderSet;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -137,7 +113,6 @@ public class Payment implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Payment)) {
             return false;
         }
@@ -148,9 +123,4 @@ public class Payment implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "com.sivalabs.bookstore.entities.Payment[ id=" + id + " ]";
-    }
-    
 }
