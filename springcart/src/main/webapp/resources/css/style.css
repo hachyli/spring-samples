@@ -115,3 +115,9 @@ tr.even
 .cursor {  
 	cursor: pointer;
 }
+
+.product
+{
+	width: 200px;
+	height: 200px;
+}

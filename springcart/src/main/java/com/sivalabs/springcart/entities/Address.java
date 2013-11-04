@@ -7,7 +7,11 @@ package com.sivalabs.springcart.entities;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -15,12 +19,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Siva
  */
-@Embeddable
+@Entity
+@Table(name="addresses")
 @XmlRootElement
 public class Address implements Serializable 
 {
     private static final long serialVersionUID = 1L;
-   
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "addr_id")
+    private Integer id;
+	@Size(max = 255)
+    @Column(name = "contact_name")
+    private String contactName;
     @Size(max = 255)
     @Column(name = "addr_line1")
     private String addrLine1;
@@ -43,8 +54,18 @@ public class Address implements Serializable
 
     public Address() {
     }
-
-    
+    public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getContactName() {
+		return contactName;
+	}
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
 
     public String getAddrLine1() {
         return addrLine1;

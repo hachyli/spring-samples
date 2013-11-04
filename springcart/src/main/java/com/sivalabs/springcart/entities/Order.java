@@ -6,10 +6,15 @@ package com.sivalabs.springcart.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +25,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -38,26 +45,33 @@ public class Order implements Serializable
     private Integer id;
     
     @JoinColumn(name = "cust_id", referencedColumnName = "cust_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade=CascadeType.ALL)
     private Customer customer;
-    @JoinColumn(name = "recipient_id", referencedColumnName = "cust_id")
-    @ManyToOne(optional = false)
-    private Customer recipient;
+    
+    @JoinColumn(name = "billing_addr_id", referencedColumnName = "addr_id")
+    @ManyToOne(optional = false, cascade=CascadeType.ALL)
+    private Address billingAddress;
+    
+    @JoinColumn(name = "shipping_addr_id", referencedColumnName = "addr_id")
+    @ManyToOne(optional = false, cascade=CascadeType.ALL)
+    private Address shippingAddress;
     
     @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade=CascadeType.ALL)
     private Payment payment;
     
     @Column(name = "status")
-    private Integer status;
-    @OneToMany
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+    
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name="order_id", nullable=false)
-    private Set<OrderItem> orderItems;
+    private Set<OrderItem> orderItems = new HashSet<OrderItem>();
     
     @NotNull
     @Column(name = "created_on")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
+    private Date createdOn = new Date();
     @Column(name = "updated_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedOn;
@@ -99,14 +113,16 @@ public class Order implements Serializable
         this.updatedOn = updatedOn;
     }
 
-    public Integer getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
-
+    
+    @XmlElementWrapper(name="orderItems")
+    @XmlElement(name="orderItem")
     public Set<OrderItem> getOrderItems() {
         return orderItems;
     }
@@ -125,14 +141,20 @@ public class Order implements Serializable
 		this.customer = customer;
 	}
 
-	public Customer getRecipient()
-	{
-		return recipient;
+	public Address getBillingAddress() {
+		return billingAddress;
 	}
 
-	public void setRecipient(Customer recipient)
-	{
-		this.recipient = recipient;
+	public void setBillingAddress(Address billingAddress) {
+		this.billingAddress = billingAddress;
+	}
+
+	public Address getShippingAddress() {
+		return shippingAddress;
+	}
+
+	public void setShippingAddress(Address shippingAddress) {
+		this.shippingAddress = shippingAddress;
 	}
 
 	public Payment getPayment()

@@ -1,0 +1,46 @@
+{    
+    "customer": {        
+        "email": "siva1@gmail.com",
+        "password": "siva1",
+        "firstName": "Siva",
+        "lastName": "K",
+        "phone": "90000510456"
+    },
+    "billingAddress": {        
+        "contactName": "K. Siva Prasad Reddy",
+        "addrLine1": "KP",
+        "addrLine2": "BalajiNagar",
+        "city": "Hyd",
+        "country": "India",
+        "state": "TG",
+        "zipCode": "500072"
+    },
+    "shippingAddress": {       
+        "contactName": "K. Siva Prasad Reddy",
+        "addrLine1": "KP",
+        "addrLine2": "BalajiNagar",
+        "city": "Hyd",
+        "country": "India",
+        "state": "TG",
+        "zipCode": "500072"
+    },
+    "payment": {        
+        "creditCardNumber": "123-456-789",
+        "cvv": "123",
+        "expiryDate": 1383445584000
+    },    
+    "orderItems": [
+        {
+            "quantity": 1,
+            "product": {
+                "id": 1
+            }
+        },
+        {            
+            "quantity": 2,
+            "product": {
+                "id": 2
+            }
+        }
+    ]
+}

@@ -37,12 +37,12 @@ public class OrderItem implements Serializable {
     
     @Column(name = "created_on")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
+    private Date createdOn = new Date();
     @Column(name = "updated_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedOn;
     
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
+    @JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable=false)
     @ManyToOne
     private Product product;
     
@@ -93,23 +93,4 @@ public class OrderItem implements Serializable {
         this.product = product;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof OrderItem)) {
-            return false;
-        }
-        OrderItem other = (OrderItem) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-    
 }

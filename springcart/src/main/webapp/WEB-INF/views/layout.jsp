@@ -13,6 +13,7 @@
 	<link type="text/css" href='<spring:url value="/resources/bootstrap/css/bootstrap.min.css"/>' rel="stylesheet" />
 	<link type="text/css" href='<spring:url value="/resources/bootstrap/css/bootstrap-responsive.min.css"/>' rel="stylesheet" />
 
+	<script type="text/javascript" src='<spring:url value="/resources/js/app.js"/>'></script>
 	<style type="text/css">
       body 
       {
@@ -48,7 +49,8 @@
             	</form>
             	</li>
             	
-               <li><a href="#myModal" data-toggle="modal">Cart</a></li>
+               <!-- <li><a href="#myModal" data-toggle="modal"><span id="viewCartLabel">Cart(0)</span></a></li> -->
+               <li><a href="showCart"><span id="viewCartLabel">Cart(0)</span></a></li>
                <li><a href="#logout">Logout</a></li>
                <li class="divider-vertical"></li>
                <li class="dropdown">
@@ -69,7 +71,7 @@
 	<!-- Modal -->
 	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" 
 			aria-labelledby="myModalLabel" aria-hidden="true">
-		<form id="newPostForm" class="form-horizontal" method="post" action="posts">
+		<form class="form-horizontal" method="post" action="#">
 	  <div class="modal-header">
 	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 	    <h3 id="myModalLabel">Cart</h3>
@@ -78,7 +80,8 @@
 		
 			<fieldset>
 				<legend>Cart Items</legend>
-			  	Item Details
+			  	<div id="cartItemDetails">
+			  	</div>
 			  </fieldset>
 			
 

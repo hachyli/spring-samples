@@ -18,9 +18,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -29,19 +32,20 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "products")
 @XmlRootElement
-public class Product implements Serializable {
+public class Product implements Serializable 
+{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Integer id;
-    @Size(max = 255)
-    @Column(name = "description")
-    private String description;
-    @Size(max = 255)
+    @Size(max = 100)
     @Column(name = "name")
     private String name;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Size(max = 512)
+    @Column(name = "description")
+    private String description;
+    @Min(value=1)
     @Column(name = "price")
     private BigDecimal price;
     @Column(name = "image_url")
@@ -49,7 +53,7 @@ public class Product implements Serializable {
     
     @Column(name = "created_on")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
+    private Date createdOn = new Date();
     @Column(name = "updated_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedOn;
@@ -64,8 +68,35 @@ public class Product implements Serializable {
     public Product(Integer id) {
         this.id = id;
     }
+    
+    
+    public Product(Integer id, String name, String description,
+			BigDecimal price, String imageUrl) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.imageUrl = imageUrl;
+	}
 
-    public Integer getId() {
+	public Product(Integer id, String name, String description,
+			BigDecimal price, String imageUrl, Category category) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.imageUrl = imageUrl;
+		this.category = category;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", description="
+				+ description + ", price=" + price + ", imageUrl=" + imageUrl
+				+ ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + "]";
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -122,8 +153,10 @@ public class Product implements Serializable {
 	{
 		this.imageUrl = imageUrl;
 	}
+	
+	//@XmlJsonTransient
 	@XmlTransient
-	@com.fasterxml.jackson.annotation.JsonIgnore
+	@JsonIgnore
     public Category getCategory()
 	{
 		return category;
@@ -133,38 +166,7 @@ public class Product implements Serializable {
 	{
 		this.category = category;
 	}
-/*
-	@Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Product)) {
-            return false;
-        }
-        Product other = (Product) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-	public Product getCopy() {
-		Product product = new Product();
-		product.setId(id);
-		product.setName(name);
-		product.setPrice(price);
-		product.setDescription(description);
-		product.setImageUrl(imageUrl);
-		product.setCreatedOn(createdOn);
-		product.setUpdatedOn(updatedOn);
-		//product.setCategory(category);
-		
-		return product;
-	}
-    */
+	
+    
 }

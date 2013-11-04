@@ -5,7 +5,6 @@
 package com.sivalabs.springcart.entities;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -28,14 +27,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "inventory")
 @XmlRootElement
-public class Inventory implements Serializable {
+public class Inventory implements Serializable 
+{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "inv_id")
     private Integer id;
-    @Column(name = "min_threshold_level")
-    private BigInteger minThresholdLevel;
+   
     @NotNull
     @Column(name = "quantity")
     private long quantity;
@@ -49,7 +48,7 @@ public class Inventory implements Serializable {
     private Date updatedOn;
     
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
-    @ManyToOne
+    @ManyToOne()
     private Product product;
 
     public Inventory() {
@@ -86,14 +85,6 @@ public class Inventory implements Serializable {
 
     public void setUpdatedOn(Date updatedOn) {
         this.updatedOn = updatedOn;
-    }
-
-    public BigInteger getMinThresholdLevel() {
-        return minThresholdLevel;
-    }
-
-    public void setMinThresholdLevel(BigInteger minThresholdLevel) {
-        this.minThresholdLevel = minThresholdLevel;
     }
 
     public long getQuantity() {
