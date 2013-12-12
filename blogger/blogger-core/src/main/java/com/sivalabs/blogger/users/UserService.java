@@ -11,18 +11,18 @@ import com.sivalabs.blogger.domain.User;
 
 /**
  * @author Siva
- *
+ * 
  */
 @Service
 @Transactional
-public class UserService 
+public class UserService
 {
 	@Autowired
-	UserRepository userRepository;
+	private UserMapper userMapper;
 
-	public User login(String userName, String password) {
-		return userRepository.login(userName, password);
+	public User login(String userName, String password)
+	{
+		return userMapper.login(userName, password);
 	}
-	
-	
+
 }

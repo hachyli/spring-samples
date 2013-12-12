@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sivalabs.blogger.blogs.BlogMapper">
+                          
+     <resultMap type="Blog" id="BlogResult">
+        <id property="id" column="blog_id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="createdOn" column="created_on"/>
+        <result property="updatedOn" column="updated_on"/>
+        <association property="user" column="user_id" select="com.sivalabs.blogger.users.UserMapper.selectUserById"/>
+        <!-- <collection property="posts" column="blog_id" select="selectBlogPosts"/> -->        
+     </resultMap>
+     
+     <resultMap type="Post" id="PostResult">
+        <id property="id" column="post_id"/>
+        <result property="title" column="title"/>
+        <result property="message" column="message"/>
+        <result property="createdOn" column="created_on"/>
+        <result property="updatedOn" column="updated_on"/>
+        <result property="blogId" column="blog_id"/>
+        <!-- <association property="blog" column="blog_id" select="selectBlogById"/> -->
+        <association property="postedBy" column="posted_by" select="com.sivalabs.blogger.users.UserMapper.selectUserById"/>
+        <!-- <collection property="comments" column="post_id" select="selectPostComments"/>  -->       
+     </resultMap>
+     
+     <resultMap type="Comment" id="CommentResult">
+        <id property="id" column="comment_id"/>
+        <result property="title" column="title"/>
+        <result property="message" column="message"/>
+        <result property="postId" column="post_id"/>
+        <result property="createdOn" column="created_on"/>
+        <result property="updatedOn" column="updated_on"/>
+        <association property="postedBy" column="posted_by" select="com.sivalabs.blogger.users.UserMapper.selectUserById"/>
+        
+     </resultMap>
+     
+     <select id="selectBlogs" resultMap="BlogResult">
+      select * from blogs
+     </select>
+     
+     <select id="selectBlogById" resultMap="BlogResult">
+      select * from blogs where blog_id=#{id}
+     </select>
+     
+     <select id="selectBlogPosts" resultMap="PostResult">
+      select * from posts where blog_id=#{blogId}
+     </select>
+     
+     <select id="selectPostComments" resultMap="CommentResult">
+      select * from comments where post_id=#{postId}
+     </select>
+     
+     <insert id="createBlog" useGeneratedKeys="true" keyProperty="id">
+        insert into blogs(name, description, user_id, created_on, updated_on)
+        values(#{name}, #{description}, #{user.id}, now(), null)
+     </insert>
+     
+</mapper>

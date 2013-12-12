@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sivalabs.blogger.users.UserMapper">
+                          
+    <resultMap type="User" id="UserResult">
+      <id property="id" column="user_id"/>
+      <result property="userName" column="username"/>
+      <result property="password" column="password"/>
+      <result property="firstName" column="firstname"/>
+      <result property="lastName" column="lastname"/>
+      <result property="email" column="email"/>
+      <result property="dob" column="dob"/>      
+    </resultMap>
+    
+    <select id="login" resultMap="UserResult">
+        SELECT * FROM USERS WHERE USERNAME=#{param1} AND PASSWORD=#{param2}
+    </select>
+    
+    <select id="selectUserById" resultMap="UserResult">
+        SELECT * FROM USERS WHERE USER_ID=#{id}
+    </select>
+    
+    
+          
+</mapper>

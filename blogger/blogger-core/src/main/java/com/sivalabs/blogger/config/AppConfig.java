@@ -5,6 +5,9 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -32,10 +35,21 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAsync
 @EnableTransactionManagement
 @PropertySource(value = { "classpath:application.properties" })
-public class AppConfig {
-	
+@MapperScan(value = "com.sivalabs.blogger")
+public class AppConfig
+{
+
 	@Autowired
 	private Environment env;
+
+	@Bean
+	public SqlSessionFactory sqlSessionFactory() throws Exception
+	{
+		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+		sessionFactory.setDataSource(dataSource());
+		sessionFactory.setTypeAliasesPackage("com.sivalabs.blogger.domain");
+		return sessionFactory.getObject();
+	}
 
 	@Bean
 	public JdbcTemplate jdbcTemplate(DataSource dataSource)
@@ -44,15 +58,16 @@ public class AppConfig {
 	}
 
 	@Bean
-	public PlatformTransactionManager transactionManager(DataSource dataSource)
-			throws SQLException {
+	public PlatformTransactionManager transactionManager(DataSource dataSource) throws SQLException
+	{
 		DataSourceTransactionManager txManager = new DataSourceTransactionManager();
 		txManager.setDataSource(dataSource);
 		return txManager;
 	}
-	
+
 	@Bean
-	public DataSource dataSource() throws SQLException {
+	public DataSource dataSource() throws SQLException
+	{
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
 		dataSource.setUrl(env.getProperty("jdbc.url"));
@@ -68,7 +83,8 @@ public class AppConfig {
 	 */
 
 	@Bean
-	public CacheManager cacheManager() {
+	public CacheManager cacheManager()
+	{
 		return new ConcurrentMapCacheManager();
 	}
 }
