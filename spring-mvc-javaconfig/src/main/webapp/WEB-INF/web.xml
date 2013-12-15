@@ -3,7 +3,7 @@
   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
   <display-name>SpringMVC JavaConfig</display-name>
 
-  <filter>
+  <!-- <filter>
     <filter-name>sitemesh</filter-name>
     <filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
   </filter>
@@ -12,5 +12,5 @@
     <filter-name>sitemesh</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-
+ -->
 </web-app>
