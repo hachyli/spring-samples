@@ -5,15 +5,12 @@
 <title>Create User</title>
 <script type="text/javascript">
 $(document).ready(function() {
-	console.log("ready!");
+	
 	$("#registrationForm").submit(function( event ) {
 		
-		  $("#userNameError").html("");
-		  $("#emailError").html("");
-		  
 		  var userName = $.trim($("#userName").val());
 		  var password = $.trim($("#password").val());
-		  var firstName = $.trim($("#userName").val());
+		  var firstName = $.trim($("#firstName").val());
 		  var email = $.trim($("#email").val());
 		  if(userName == '' || password == '' || firstName == '' || email == '')
 		  {
@@ -21,86 +18,85 @@ $(document).ready(function() {
 				event.preventDefault();
 				return false;
           }
-          else
-          {
-        	  var validForm = true;
-        	  $.ajaxSetup({async: false});
-        	  $.get("checkUserNameExists",{ userName : userName }, function(response){            	  
-        		    if(response.status == false){
-        		    	$("#userNameError").html(response.errors[0]);
-        		    	validForm = false;
-            		}
-        	  });
-        	  
-        	  $.get("checkEmailExists",{ email : email }, function(response){
-      		    if(response.status == false){
-    		    	$("#emailError").html(response.errors[0]);
-    		    	validForm = false;
-          		}
-      	  	});
-        	
-        	$.ajaxSetup({async: true});
-        	if(!validForm){
-        		event.preventDefault();
-  				return false; 
-            }
-			return true;
-          }	 
-		   
 	});
 });
 </script>
 </head>
 <body>
-	<form:form id="registrationForm" method="post" action="register" modelAttribute="user" cssStyle="width: 800px; margin: 0 auto;" class="form-horizontal" role="form">
-   <%--  <spring:message code="appTitle"></spring:message> --%>
-		<c:if test="${ERROR != null }">
-			<div>
-				<p>Error: ${ERROR}
+
+<div class="col-md-6 col-md-offset-2">	
+<c:if test="${ERROR != null }">
+			<div class="alert alert-danger">
+				<p>${ERROR}
 			</div>
 		</c:if>
-    <%--
-     <div>
-      <form:errors path="*"></form:errors>
-    </div> 
-    --%>
-		<table>
-			
-			<tr>
-				<td>UserName*</td>
-				<td><form:input path="userName" /><span id="userNameError"><form:errors path="userName"/> </span></td>
-			</tr>
-			<tr>
-				<td>Password*</td>
-				<td><form:password path="password"/><span id="passwordError"><form:errors path="password"/></span> </td>
-			</tr>
-			<tr>
-				<td>FirstName*</td>
-				<td><form:input path="firstName" /><span id="firstNameError"><form:errors path="firstName"/></span> </td>
-			</tr>
-			<tr>
-				<td>LastName</td>
-				<td><form:input path="lastName" /> </td>
-			</tr>
-			<tr>
-				<td>Email*</td>
-				<td><form:input path="email" /><span id="emailError"><form:errors path="email"/></span> </td>
-			</tr>
-			
-			<tr>
-				<td>DOB(dd-MM-yyyy)</td>
-				<td><form:input path="dob" /> <span id="dobError"><form:errors path="dob"/></span></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><input type="submit" class="btn btn-primary" value="Register"> </td>
-			</tr>
-      <tr>
-        <td>Already Registered?</td>
-        <td><a href="login">Login</a> </td>
-      </tr>
-		</table>
-	</form:form>
+		</div>
+		
+<div class="row">
+		<div class="col-md-6 col-md-offset-2">	
+			<h2>User Registration Form</h2>
+			<form:form id="registrationForm" method="post" action="register" modelAttribute="user" cssStyle="width: 800px; margin: 0 auto;" class="form-horizontal" role="form">
+		  <div class="form-group">
+		    <label for="userName" class="col-sm-2 control-label">UserName*</label>
+		    <div class="col-sm-4">
+		      <input type="text" id="userName" name="userName" class="form-control" placeholder="UserName" />
+		      <form:errors path="userName"/>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="password" class="col-sm-2 control-label">Password*</label>
+		    <div class="col-sm-4">
+		      <input type="password" id="password" name="password" class="form-control" placeholder="Password" />
+		      <form:errors path="password"/>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="email" class="col-sm-2 control-label">Email*</label>
+		    <div class="col-sm-4">
+		      <input type="text" id="email" name="email" class="form-control" placeholder="Email" />
+		      <form:errors path="email"/>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="firstName" class="col-sm-2 control-label">FirstName*</label>
+		    <div class="col-sm-4">
+		      <input type="text" id="firstName" name="firstName" class="form-control" placeholder="FirstName" />
+		      <form:errors path="firstName"/>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="lastName" class="col-sm-2 control-label">LastName</label>
+		    <div class="col-sm-4">
+		      <input type="text" id="lastName" name="lastName" class="form-control" placeholder="LastName" />
+		      <form:errors path="lastName"/>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="dob" class="col-sm-2 control-label">Date Of Birth</label>
+		    <div class="col-sm-4">
+		      <input type="text" id="dob" name="dob" class="form-control" placeholder="dd-MM-yyyy" />
+		      <form:errors path="dob" cssClass="text-danger" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-2 col-sm-4">
+		      <input type="submit" class="btn btn-primary" value="Register">
+		    </div>
+		  </div>
+		   <div class="form-group">
+		    <div class="col-sm-offset-2 col-sm-4">
+		      Already Registered? <a href="login">Login</a>
+		    </div>
+		  </div>
+		  
+		</form:form>
+	</div>
+</div>
+
 	
 </body>
 </html>

@@ -27,6 +27,12 @@ public class UserService
 
 	public void createUser(User user)
 	{
+		if(checkUserNameExists(user.getUserName())){
+			throw new RuntimeException("UserName ["+user.getUserName()+"] already exist");
+		}
+		if(checkEmailExists(user.getEmail())){
+			throw new RuntimeException("Email ["+user.getEmail()+"] already exist");
+		}
 		userRepository.save(user);
 	}
 

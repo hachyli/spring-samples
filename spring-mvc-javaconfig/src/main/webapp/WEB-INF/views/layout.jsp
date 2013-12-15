@@ -27,13 +27,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="welcome">SivLabs</a>
+          <a class="navbar-brand" href="welcome">SivaLabs</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="welcome">Home</a></li>
             <li><a href="admin">Administration</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="contact">Contact</a></li>
             <li><a href="logout">Logout</a></li>
           </ul>
         </div><!-- /.nav-collapse -->

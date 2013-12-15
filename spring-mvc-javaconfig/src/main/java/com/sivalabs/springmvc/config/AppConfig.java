@@ -20,6 +20,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate4.HibernateExceptionTranslator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -104,5 +105,23 @@ public class AppConfig
 	public CacheManager cacheManager()
 	{
 		return new ConcurrentMapCacheManager();
+	}
+	
+	@Bean
+	public JavaMailSenderImpl javaMailSenderImpl() {
+		JavaMailSenderImpl mailSenderImpl = new JavaMailSenderImpl();
+		mailSenderImpl.setHost(env.getProperty("smtp.host"));
+		mailSenderImpl.setPort(env.getProperty("smtp.port", Integer.class));
+		mailSenderImpl.setProtocol(env.getProperty("smtp.protocol"));
+		mailSenderImpl.setUsername(env.getProperty("smtp.username"));
+		mailSenderImpl.setPassword(env.getProperty("smtp.password"));
+		
+		Properties javaMailProps = new Properties();
+		javaMailProps.put("mail.smtp.auth", true);
+		javaMailProps.put("mail.smtp.starttls.enable", true);
+		
+		mailSenderImpl.setJavaMailProperties(javaMailProps);
+		
+		return mailSenderImpl;
 	}
 }
