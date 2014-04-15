@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	
+	<bean id="customerLocator" class="com.sivalabs.springtraining.basics.CustomerLocator">
+		<property name="addressVerificationService" ref="bavs"/>
+		<property name="customerDataProvisder" ref="jdbcCustomerDataProvider"/>
+	</bean>
+	
+	<bean id="bavs" class="com.sivalabs.springtraining.basics.BingAddressVerificationService">
+	
+	</bean>
+	
+	<bean id="jdbcCustomerDataProvider" class="com.sivalabs.springtraining.basics.JdbcCustomerDataProvider" init-method="init">
+		<constructor-arg ref="dataSource"/>
+	</bean>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="org.h2.Driver" />
+		<property name="url" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+	</bean>
+	<!-- 
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/test" />
+		<property name="username" value="root" />
+		<property name="password" value="admin" />
+	</bean>
+	 -->
+</beans>

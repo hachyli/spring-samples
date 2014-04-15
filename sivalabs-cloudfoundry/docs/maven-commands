@@ -1,0 +1,21 @@
+
+
+http://blog.springsource.com/2011/09/22/rapid-cloud-foundry-deployments-with-maven/
+
+https://github.com/SpringSource/cloudfoundry-samples/
+
+
+<servers>
+	<server>
+	  <id>mycloudfoundry-instance</id>
+	  <username>sivaprasadreddy.k@gmail.com</username>
+	  <password>*********</password>
+	</server>
+</servers>
+
+
+cf:info -Dcf.memory=256 -Dcf.url=sivalabs.cloudfoundry.com -Dcf.target=http://api.cloudfoundry.com
+
+cf:info -Dcf.username=sivaprasadreddy.k@gmail.com -Dcf.password=******** -Dcf.memory=256 -Dcf.url=sivalabs.cloudfoundry.com -Dcf.target=http://api.cloudfoundry.com
+
+clean cf:update

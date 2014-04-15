@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job-definitions>
+	
+	<job id="JOB1">
+		<job-detail name="Sample Job1" group="Group1" jobImplClass="com.sivalabs.scheduler4j.jobs.HelloJob"/>
+		<trigger name="Trigger1" group="Group1" cron-exp="0/20 * * * * ?"/>
+	</job>
+	
+	<job id="JOB2">
+		<job-detail name="Sample Job2" group="Group1" jobImplClass="com.sivalabs.scheduler4j.services.HelloJob1"/>
+		<trigger name="Trigger2" group="Group1" cron-exp="0/10 * * * * ?"/>
+	</job>
+	
+</job-definitions>

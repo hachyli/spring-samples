@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<breadcrumb>
+	<link id="a" name="A" href="a.html" label="Click A">
+		<childLinks>
+			<link id="a1" name="A1" href="a1.html" label="Click A1">
+				<childLinks>
+					<link id="A11" name="A11" href="a11.html" label="Click A11"></link>
+				</childLinks>
+			</link>
+			<link id="a2" name="A2" href="a2.html" label="Click A2"></link>
+		</childLinks>
+	</link>
+	<link id="b" name="B" href="b.html" label="Click B">
+		<childLinks>
+			<link id="b1" name="B1" href="b1.html" label="Click B1">
+				<childLinks>
+					<link id="b11" name="B11" href="b11.html" label="Click B11"></link>
+				</childLinks>
+			</link>
+		</childLinks>
+	</link>
+	<link id="c" name="C" href="c.html" label="Click C"></link>
+</breadcrumb>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cache-config>
+
+	<cache id="configurationCache" 
+		   cacheLoaderClassName="com.sivalabs.cache.ConfigurationCache"
+		   refreshInterval="10000"
+		   lazy="true">
+		   <description>Configuration Cache1</description>
+		   
+	</cache>
+	<cache id="staticDataCache" 
+		   cacheLoaderClassName="com.sivalabs.cache.StaticDataCache"
+		   refreshInterval="20000"
+		   lazy="false">
+		   <description>StaticData Cache</description>
+	</cache>
+	
+</cache-config>

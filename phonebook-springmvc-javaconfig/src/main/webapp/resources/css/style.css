@@ -1,0 +1,181 @@
+* {
+	margin:0;
+	padding:0;
+}
+body {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	background:#CCCCCC;
+}
+#container {
+	width:800px;
+	margin:auto;
+	background:#FFFFFF;
+}
+
+#userBanner
+{
+	width:800px;
+	height:20px;
+	text-align: right;
+}
+#layoutHeader {
+	width:800px;
+	height:100px;
+	
+	background: -moz-linear-gradient(black, white); /* FF 3.6+ */
+	background: -ms-linear-gradient(black, white); /* IE10 */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #000000), color-stop(100%, #ffffff)); /* Safari 4+, Chrome 2+ */
+	background: -webkit-linear-gradient(black, white); /* Safari 5.1+, Chrome 10+ */
+	background: -o-linear-gradient(black, white); /* Opera 11.10 */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#ffffff'); /* IE6 & IE7 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#ffffff')"; /* IE8+ */
+	background: linear-gradient(black, white); /* the standard */
+	
+}
+
+#layoutMenu {
+	width:800px;
+	height:20px;
+}
+
+#layoutHeader h1 {
+	color:#FFFFFF;
+	font-size:36px;
+	font-weight:bold;
+	padding:20px 20px 0 20px;
+}
+#layoutHeader h2 {
+	color:#FFFFFF;
+	font-size:14px;
+	font-weight:bold;
+	padding:0 20px 0 20px;
+}
+#layoutHeader h1 a {
+	color:#FFFFFF;
+	font-size:36px;
+	font-weight:bold;
+	text-decoration:none;
+}
+#layoutHeader h2 a {
+	color:#FFFFFF;
+	font-size:14px;
+	font-weight:bold;
+	text-decoration:none;
+}
+#layoutCenterBody {
+	margin:10px 10px 0 2px;
+}
+#layoutNavigation {
+	border:1px solid #15190A;
+	width:200px;
+	float:left;
+	background:#DCDECC;
+	margin-left:2px;
+}
+#layoutNavigation .navTitle {
+	background:#15190A;
+	height:30px;
+}
+#layoutNavigation .navTitle h3 {
+	color:#FFFFFF;
+	font-size:12px;
+	font-weight:bold;
+	padding:2px 5px;
+}
+#layoutBodyContent {
+	margin-left:220px;
+	min-height: 400px;
+	height: auto;
+}
+#layoutBodyContent a {
+	color:#7A7D5F;
+	font-size:12px;
+	font-weight:bold;
+}
+#layoutBodyContent h1{
+	color:#15190A;
+	font-weight:bold;
+	font-size:24px;
+}
+#layoutBodyContent h2{
+	color:#15190A;
+	font-weight:bold;
+	font-size:14px;
+	margin-top:10px;
+}
+#layoutBodyContent p {
+	margin-top:10px;
+}
+.clearer {
+	clear:both;
+	height:10px;
+}
+#layoutFooter {
+	height:30px;
+	background:url(images/menuBackground.gif) repeat-x;
+	text-align:center;
+}
+#layoutFooter p {
+	padding-top:10px;
+	color:#BCBA9E;
+}
+#layoutFooter a {
+	color:#BCBA9E;
+	text-decoration:underline;
+}
+#layoutFooter a:hover {
+	color:#BCBA9E;
+	text-decoration:none;
+}
+
+
+/* left navigation menu begins */
+#layoutNavigation ul {
+	list-style-type: none;
+	margin:10px 0;
+}
+#layoutNavigation a {
+	display: block;
+	width: 180px;
+	background-color: #DCDECC;
+	border-bottom: 1px dotted #15190A;
+	margin:7px 10px;
+}
+#layoutNavigation a:link, #layoutNavigation a:visited {
+	color: #15190A;
+	text-decoration: none;
+}
+#layoutNavigation a:hover {
+	background-color: #B7BA9E;
+	color: #fff;
+}
+/* left navigation menu ends */
+
+
+.error
+{
+	color: red;
+}
+
+.stripeMe  {
+	width: 100%;
+	border: 1px solid #cef;
+	text-align: left; 
+}
+.stripeMe th {
+	font-weight: bold;
+	background-color: #acf;
+	border-bottom: 1px solid #cef; 
+}
+.stripeMe td, .stripeMe th {
+	padding: 4px 5px; 
+}
+	
+.stripeMe .odd {
+	background-color: #def; 
+}
+.stripeMe .odd td {
+	border-bottom: 1px solid #cef; 
+}
+	

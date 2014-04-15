@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions 
+	PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" 
+	"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<!-- 
+	<definition name="guestViewLayout" template="/jsp/layout/guest_view_layout.jsp">
+		<put-attribute name="title" value="SivaLabs" />
+		<put-attribute name="header" value="/jsp/layout/header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/jsp/layout/footer.jsp" />
+	</definition>
+	 -->
+	 
+	<definition name="baseLayout" template="/jsp/layout/layout.jsp">
+		<put-attribute name="title" value="SivaLabs" />
+		<put-attribute name="header" value="/jsp/layout/header.jsp" />
+		<!-- <put-attribute name="navigation" value="/jsp/layout/navigation.jsp" /> -->
+		<put-attribute name="user_context" value="/jsp/layout/user_context.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/jsp/layout/footer.jsp" />
+	</definition>
+
+	<definition name="login" extends="baseLayout">
+		<put-attribute name="title" value="SivaLabs : Login" />
+		<!-- <put-attribute name="navigation" value="" /> -->
+		<put-attribute name="body" value="/jsp/login.jsp" />
+	</definition>
+	
+	<definition name="error" extends="baseLayout">
+		<put-attribute name="title" value="SivaLabs : Error" />
+		<!-- <put-attribute name="navigation" value="" /> -->
+		<put-attribute name="body" value="/jsp/error.jsp" />
+	</definition>
+	
+	<definition name="newUser" extends="baseLayout">
+		<put-attribute name="title" value="SivaLabs : Register" />
+		<!-- <put-attribute name="navigation" value="" /> -->
+		<put-attribute name="body" value="/jsp/newUser.jsp" />
+	</definition>
+	
+	<definition name="welcome" extends="baseLayout">
+		<put-attribute name="title" value="SivaLabs : Welcome" />
+		<put-attribute name="body" value="/jsp/welcome.jsp" />
+	</definition>
+	
+	<definition name="forumsHome" extends="baseLayout">
+		<put-attribute name="title" value="SivaLabs : Welcome" />
+		<put-attribute name="body" value="/jsp/forum/forumsHome.jsp" />
+	</definition>
+	
+	<definition name="showForum" extends="baseLayout">
+		<put-attribute name="title" value="SivaLabs : Welcome" />
+		<put-attribute name="body" value="/jsp/forum/showForum.jsp" />
+	</definition>
+	
+	<definition name="showTopic" extends="baseLayout">
+		<put-attribute name="title" value="SivaLabs : Welcome" />
+		<put-attribute name="body" value="/jsp/forum/showTopic.jsp" />
+	</definition>
+	
+	<definition name="newTopic" extends="baseLayout">
+		<put-attribute name="title" value="SivaLabs : Welcome" />
+		<put-attribute name="body" value="/jsp/forum/newTopic.jsp" />
+	</definition>
+	
+	<definition name="reply" extends="baseLayout">
+		<put-attribute name="title" value="SivaLabs : Welcome" />
+		<put-attribute name="body" value="/jsp/forum/reply.jsp" />
+	</definition>
+	
+</tiles-definitions>

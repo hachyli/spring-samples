@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<decorators>
+	
+	<excludes>
+        <pattern>/web/login*</pattern>
+    </excludes>
+    
+	<decorator name="authorizedViewDecorator" page="/WEB-INF/jsp/layout.jsp">
+		<pattern>/*</pattern>
+	</decorator>
+<!-- 
+	<decorator name="guestViewDecorator" page="/WEB-INF/jsp/layout.jsp">
+		<pattern>/web/login</pattern>
+		<pattern>/web/register</pattern>
+	</decorator>
+ -->
+</decorators>

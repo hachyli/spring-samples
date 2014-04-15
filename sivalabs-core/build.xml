@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="JBulletinBoard">
+
+	<property file="build.properties"/>
+	
+	<property environment="env"/>
+
+	<property name="debuglevel" value="source,lines,vars"/>
+	<property name="target" value="1.6"/>
+	<property name="source" value="1.6"/>
+
+	<property name="src-main-java-dir" value="src/main/java"/>
+	<property name="src-main-resources-dir" value="src/main/resources"/>
+	<property name="src-test-java-dir" value="src/test/java"/>
+	<property name="src-test-resources-dir" value="src/test/resources"/>
+	<property name="web-dir" value="WebContent"/>
+
+	<property name="compiled-main-classes-dir" value="target/classes"/>
+	<property name="compiled-test-classes-dir" value="target/test-classes"/>
+	<property name="war-dir" value="target/war"/>
+	<property name="dist-dir" value="target/dist"/>
+
+	<property name="lib-dir" value="${web-dir}/WEB-INF/lib"/>
+	<!-- <property name="lib-compile-dir" value="lib/compile"/> -->
+
+	<property name="test.reports" value="target/reports" />
+
+	<property name="WarFileName" value="${war.name}" />
+	<property name="DeployFolderPath" value="${server.deploy.folder.path}" />
+	
+	<property file="${src-main-resources-dir}/application.properties"/>
+	<property name="mysqldump" value="mysqldump"/>
+	
+	<path id="Main.classpath">
+		<pathelement location="${compiled-main-classes-dir}"/>
+		<fileset dir="${lib-dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<path refid="Server.Lib"/>
+		<!--
+		<fileset dir="${lib-compile-dir}">
+			<include name="*.jar"/>
+		</fileset>
+		-->
+	</path>
+
+	<path id="Test.classpath">
+		<path refid="Main.classpath"/>
+		<pathelement location="${compiled-test-classes-dir}"/>
+	</path>
+	
+	<path id="Server.Lib">
+		<fileset dir="${server-lib-dir}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<!--
+    <path id="Template.classpath">
+    	<path refid="Main.classpath"/>
+    	<path refid="Test.classpath"/>
+    </path>
+	-->
+
+	<target name="clean">
+		<delete dir="target"/>
+	</target>
+
+	<target name="init" depends="clean">
+		<mkdir dir="${compiled-main-classes-dir}"/>
+		<mkdir dir="${compiled-test-classes-dir}"/>
+		<mkdir dir="${war-dir}"/>
+		<mkdir dir="${dist-dir}"/>
+	</target>
+
+	<target name="compile-main" depends="init">
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${compiled-main-classes-dir}" 
+			source="${source}" target="${target}" >
+			<src path="${src-main-java-dir}"/>
+			<classpath refid="Main.classpath"/>
+		</javac>
+		<copy includeemptydirs="false" todir="${compiled-main-classes-dir}">
+			<fileset dir="${src-main-resources-dir}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+		<replace file="${compiled-main-classes-dir}/log4j.properties" 
+				 token="LOGS_DIR_PATH" value="${LOGS_DIR_PATH}"/>
+	</target>
+
+	<target name="compile-test" depends="compile-main">
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${compiled-test-classes-dir}" 
+			source="${source}" target="${target}" >
+			<src path="${src-test-java-dir}"/>
+			<classpath refid="Test.classpath"/>
+		</javac>
+		<copy includeemptydirs="false" todir="${compiled-test-classes-dir}">
+			<fileset dir="${src-test-resources-dir}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- <target name="compile" depends="compile-main, compile-test"/> -->
+	
+	<target name="build-jar" depends="compile-main">
+		<jar destfile="${dist-dir}/sivalabs-core-1.0.jar">
+			<fileset dir="${compiled-main-classes-dir}"/>
+			<metainf dir="src/META-INF"></metainf>
+			
+		</jar>
+	</target>
+	
+	<target name="build-project" depends="compile-main, build-jar">
+		<copy includeemptydirs="true" todir="${war-dir}">
+			<fileset dir="${web-dir}">
+			</fileset>
+		</copy>
+		<!--
+		<copy includeemptydirs="true" todir="${war-dir}/WEB-INF/lib">
+			<fileset dir="${lib-dir}">
+				<include name="*.jar"/>
+			</fileset>
+		</copy>
+		-->
+		<copy includeemptydirs="true" todir="${war-dir}/WEB-INF/classes">
+			<fileset dir="${compiled-main-classes-dir}"/>
+		</copy>
+	</target>
+
+	<target name="build" depends="build-project">
+		<war destfile="${dist-dir}/${WarFileName}.war" webxml="${war-dir}/WEB-INF/web.xml">
+			<fileset dir="${war-dir}"/>
+			<!--
+			<lib dir="${war-dir}/WEB-INF/lib">
+				<filename name="*.jar"/>
+			</lib>
+			<classes dir="${war-dir}/WEB-INF/classes"/>
+			-->
+		</war>
+	</target>
+
+	<target name="buildWAR" depends="build">
+		<delete dir="${compiled-main-classes-dir}"/>
+		<delete dir="${compiled-test-classes-dir}"/>
+	</target>
+
+	<target name="deployWAR" depends="buildWAR">
+		<copy file="${dist-dir}/${WarFileName}.war" todir="${DeployFolderPath}">
+		</copy>
+	</target>
+
+	<target name="deployExplodedWAR" depends="buildWAR">
+		<copy todir="${DeployFolderPath}/${war.name}">
+			<fileset dir="${war-dir}">
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="deployExplodedWARWithoutExtJS" depends="buildWAR">
+		<copy todir="${DeployFolderPath}/${war.name}">
+			<fileset dir="${war-dir}">
+				<exclude name="js/extjs/*.*"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="copyUpdatedWebContent">
+		<copy todir="${DeployFolderPath}/${war.name}">
+			<fileset dir="${web-dir}">
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="tomcat-start">
+		<java jar="${server.home}/bin/bootstrap.jar" fork="true">
+			<jvmarg value="-Dcatalina.home=${server.home}"/>
+		</java>		
+	</target>
+
+	<target name="tomcat-stop">
+		<java jar="${server.home}/bin/bootstrap.jar" fork="true">
+			<jvmarg value="-Dcatalina.home=${server.home}"/>
+			<arg line="stop"/>
+		</java>
+	</target>
+
+	<target name="tomcat-restart">
+		<antcall target="tomcat-stop"></antcall>
+		<antcall target="tomcat-start"></antcall>
+	</target>
+	
+	<target name="test" depends="compile-test">
+		<mkdir dir="${test.reports}"/>
+		<junit fork="yes" printsummary="no" haltonfailure="no">
+			<batchtest fork="yes" todir="${test.reports}" >
+				<fileset dir="${compiled-test-classes-dir}">
+					<include name="**/*Tests.class" />
+				</fileset>
+			</batchtest>
+			<formatter type="xml" />
+			<classpath refid="Test.classpath" />
+		</junit>
+	</target>
+
+	<target name="test-reports" depends="test">
+		<junitreport todir="${test.reports}">
+			<fileset dir="${test.reports}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report todir="${test.reports}" />
+		</junitreport>
+	</target>
+
+	<target name="launchApp">
+		<exec executable="cmd">
+			<arg value="/C start ${app.url}" />
+		</exec>
+	</target>
+	
+	<target name="initDatabase">
+		<sql
+		    driver="${jdbc.driverClassName}"
+		    url="${jdbc.url}"
+		    userid="${jdbc.username}"
+		    password="${jdbc.password}"
+		    src="database/forum.sql"
+			classpathref="Main.classpath"
+		/>
+	</target>
+	
+	<target name="backupDatabase">
+		<copy file="database/forum_backup.sql" tofile="database/forum_backup-old.sql"></copy>
+		<exec executable="${mysqldump}" 
+			  output="database/forum_backup.sql">
+	      <arg value="--hex-blob"/>
+	      <arg value="--extended-insert=false"/>
+	      <arg value="--complete-insert=true"/>
+	      <arg value="--user=${jdbc.username}"/>
+	      <arg value="--password=${jdbc.password}"/>
+	      <arg value="forum"/>
+	    </exec>
+	</target>
+	
+</project>
